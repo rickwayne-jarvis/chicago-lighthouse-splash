@@ -428,9 +428,18 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
 .dw-media iframe {
   position: absolute;
   top: 50%; left: 50%;
-  width: max(100%, 177.78%);
-  height: max(56.25%, 100%);
   transform: translate(-50%, -50%);
+  /* Cover the card while keeping the iframe a perfect 16:9 so Vimeo's
+     background-mode player never letterboxes. width/height: auto lets
+     aspect-ratio actually take effect; the min constraints force the box
+     to be at least as large as the card on both axes — the larger axis
+     wins and the other grows with the aspect ratio. .doorway has
+     overflow: hidden so any horizontal/vertical overhang is clipped. */
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
   border: 0;
   z-index: 1;
   pointer-events: none;
@@ -1874,9 +1883,12 @@ body { font-size: var(--fs-base); line-height: 1.55; }
 .dw-media .dw-bg-video {
   position: absolute;
   top: 50%; left: 50%;
-  width: max(100%, 177.78%);
-  height: max(56.25%, 100%);
   transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
   border: 0;
   z-index: 2;
   pointer-events: none;
