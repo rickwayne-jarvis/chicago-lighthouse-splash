@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>The Chicago Lighthouse — Light Up Human Potential</title>
-  <meta name="description" content="Light up human potential through vision care, education, opportunity, and human connection. Care, donor, and enterprise pathways into The Chicago Lighthouse." />
+  <title>The Chicago Lighthouse — Lighting Up Human Potential</title>
+  <meta name="description" content="Lighting up human potential through vision care, education, opportunity, and human connection. Three pathways: Explore, Gift, Enterprise." />
   <meta name="theme-color" content="#0B2A41" />
 
   <link rel="icon" type="image/png" href="assets/logo-deck-white.png" />
@@ -18,10 +18,10 @@
 
   <link rel="stylesheet" href="styles.css" />
 
-  <meta property="og:title" content="The Chicago Lighthouse — Light Up Human Potential" />
-  <meta property="og:description" content="Light up human potential. Three pathways: Care, Donor, Enterprise." />
+  <meta property="og:title" content="The Chicago Lighthouse — Lighting Up Human Potential" />
+  <meta property="og:description" content="Lighting up human potential. Three pathways: Explore, Gift, Enterprise." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/poster-hero.jpg" />
+  <meta property="og:image" content="assets/hero-braille-reader.jpg" />
 </head>
 <body data-theme="default" data-text="m" data-motion="auto">
 
@@ -30,11 +30,23 @@
   <!-- Brand light: warm radial glow anchored to logo position -->
   <div class="brand-light" aria-hidden="true"></div>
 
+  <!-- Beacon cursor: warm radial glow that follows the pointer -->
+  <div class="beacon" id="beacon" aria-hidden="true"></div>
+
+  <!-- Switch flash overlay: warm light sweep for the contrast toggle -->
+  <div class="switch-flash" id="switchFlash" aria-hidden="true"></div>
+
   <header class="site-header" role="banner">
     <div class="wrap header-inner">
       <a href="#top" class="brand" aria-label="The Chicago Lighthouse — back to top">
-        <img src="assets/logo-deck-white.png" alt="The Chicago Lighthouse, lighting up human potential" />
+        <img src="assets/logo-color.png" alt="The Chicago Lighthouse, lighting up human potential" />
       </a>
+
+      <nav class="section-nav" aria-label="Sections">
+        <a href="#explore" class="section-nav-link"><span class="section-nav-num">01</span>Explore</a>
+        <a href="#gift" class="section-nav-link"><span class="section-nav-num">02</span>Gift</a>
+        <a href="#enterprise" class="section-nav-link"><span class="section-nav-num">03</span>Enterprise</a>
+      </nav>
 
       <nav class="a11y-bar" aria-label="Display preferences">
         <span class="a11y-label" aria-hidden="true">Light</span>
@@ -43,6 +55,10 @@
           <button type="button" class="a11y-btn is-on" data-text-size="m" aria-label="Default text size" title="Default text size">A</button>
           <button type="button" class="a11y-btn" data-text-size="l" aria-label="Larger text" title="Larger text">A<span aria-hidden="true">+</span></button>
         </div>
+        <button type="button" class="a11y-btn a11y-toggle is-on" data-toggle="cc" aria-pressed="true" aria-label="Toggle closed captions" title="Closed Captions On/Off">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="a11y-text">CC</span>
+        </button>
         <button type="button" class="a11y-btn a11y-toggle" data-toggle="theme" aria-pressed="false" aria-label="Toggle high-contrast theme" title="High contrast">
           <span class="dot" aria-hidden="true"></span>
           <span class="a11y-text">Contrast</span>
@@ -53,7 +69,7 @@
         </button>
       </nav>
 
-      <a class="btn btn-accent btn-pulse header-cta" href="#donor" rel="noopener">Light Up Today</a>
+      <a class="btn btn-accent btn-pulse header-cta" href="#gift" rel="noopener">Light Up Today</a>
     </div>
   </header>
 
@@ -62,7 +78,7 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true">
-        <img class="hero-poster" src="assets/poster-hero.jpg" alt="" />
+        <img class="hero-poster" src="assets/hero-braille-reader.jpg" alt="" />
         <iframe
           class="hero-video"
           src="https://player.vimeo.com/video/1198599538?background=1&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&texttrack=en"
@@ -77,12 +93,15 @@
 
       <div class="wrap hero-inner">
         <p class="eyebrow eyebrow-on-dark">The Chicago Lighthouse</p>
-        <h1 id="hero-title" class="display hero-title">
-          <span class="glow-text">Light Up Human Potential.</span>
-          <span class="hero-accent glow-accent">Today.</span>
+        <h1 id="hero-title" class="display hero-title" data-illuminate>
+          <span class="glow-text hero-line-dominant" data-illuminate-line>LIGHTING UP HUMAN POTENTIAL.</span>
+          <span class="hero-accent glow-accent breathe-warm" data-illuminate-line>Today.</span>
         </h1>
-        <p class="lede">Vision care, education, opportunity, and human connection — at The Chicago Lighthouse, that is how we light up human potential.</p>
+        <p class="lede">Vision care, education, opportunity, and human connection. That is how we are lighting up human potential at The Chicago Lighthouse.</p>
         <div class="hero-row">
+          <a class="btn btn-accent btn-hero-door" href="https://thechicagolighthouse.org/" target="_blank" rel="noopener">
+            Enter the Site <span class="arr" aria-hidden="true">&rarr;</span>
+          </a>
           <button type="button" class="film-btn film-btn-hero" data-film="1198599538" aria-label="Watch the Chicago Lighthouse film with sound">
             <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
           </button>
@@ -91,29 +110,33 @@
       </div>
     </section>
 
+    <hr class="lightline" aria-hidden="true" />
+
     <!-- ============ THREE DOORWAYS ============ -->
     <section class="doorways-section" aria-labelledby="doorways-title">
+      <div class="lighttrail" aria-hidden="true"></div>
       <div class="wrap">
         <h2 id="doorways-title" class="sr-only">Three pathways into The Chicago Lighthouse</h2>
 
         <div class="doorways">
 
-          <!-- 1. CARE -->
-          <article class="doorway dw-care" aria-labelledby="dw-care-title">
+          <!-- 1. EXPLORE -->
+          <article class="doorway dw-care" id="explore" aria-labelledby="dw-care-title">
+            <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true">
-              <img src="assets/community-lighthouse.jpg" alt="" />
+              <img src="assets/explore-playground.jpg" alt="" />
               <div class="dw-scrim"></div>
             </div>
             <div class="dw-content">
               <div class="dw-meta">
-                <span class="dw-num">01 &middot; Care</span>
+                <span class="dw-num"><span class="dw-num-n">01</span> / Explore</span>
               </div>
               <div class="dw-body">
                 <h3 id="dw-care-title" class="dw-title">
-                  <span class="glow-text">We Light Up</span><br/>
-                  <span class="glow-text">Human Potential.</span>
+                  <span class="glow-text breathe-warm">We Light Up</span><br/>
+                  <span class="glow-text breathe-warm">Human Potential.</span>
                 </h3>
-                <ul class="dw-list" aria-label="Care offerings">
+                <ul class="dw-list" aria-label="Explore offerings">
                   <li>Independent Living</li>
                   <li>Education &amp; Early Intervention</li>
                   <li>Vision Care &amp; Optical Services</li>
@@ -126,38 +149,31 @@
             </div>
           </article>
 
-          <!-- 2. DONOR -->
-          <article class="doorway dw-donor" id="donor" aria-labelledby="dw-donor-title">
+          <!-- 2. GIFT -->
+          <article class="doorway dw-donor" id="gift" aria-labelledby="dw-donor-title">
+            <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true">
-              <img class="dw-poster" src="assets/poster-donor.jpg" alt="" />
-              <iframe
-                src="https://player.vimeo.com/video/1198599536?background=1&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1"
-                allow="autoplay; fullscreen"
-                allowfullscreen
-                title="Donor film — ambient loop"
-                loading="lazy"
-                tabindex="-1"
-              ></iframe>
+              <img class="dw-poster" src="assets/gift-smile.jpg" alt="" />
               <div class="dw-scrim dw-scrim-donor"></div>
             </div>
-            <button class="film-btn film-btn-corner" data-film="1198599536" aria-label="Watch the Donor film with sound">
+            <button class="film-btn film-btn-corner" data-film="1198599536" aria-label="Watch the Gift film with sound">
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
             <div class="dw-content dw-content-donor">
               <div class="dw-meta">
-                <span class="dw-num dw-num-accent">02 &middot; Donor</span>
+                <span class="dw-num dw-num-accent"><span class="dw-num-n">02</span> / Gift</span>
               </div>
               <div class="dw-body">
                 <h3 id="dw-donor-title" class="dw-title">
-                  <span class="glow-text">You Can Light Up</span><br/>
-                  <span class="glow-text">Human Potential.</span>
+                  <span class="glow-text breathe-warm">You Can Light Up</span><br/>
+                  <span class="glow-text breathe-warm">Human Potential.</span>
                 </h3>
 
                 <!-- ============ DONATION WIDGET ============ -->
                 <form class="give" id="giveForm" aria-label="Make a donation" novalidate>
                   <div class="give-freq" role="group" aria-label="Donation frequency">
-                    <button type="button" class="give-freq-btn is-on" data-freq="one-time" aria-pressed="true">One-Time</button>
-                    <button type="button" class="give-freq-btn" data-freq="monthly" aria-pressed="false">Monthly</button>
+                    <button type="button" class="give-freq-btn" data-freq="one-time" aria-pressed="false">One-Time</button>
+                    <button type="button" class="give-freq-btn is-on" data-freq="monthly" aria-pressed="true">Monthly</button>
                   </div>
 
                   <fieldset class="give-tiers" aria-label="Donation amount">
@@ -177,7 +193,7 @@
                   </div>
 
                   <button type="submit" class="btn btn-accent btn-block btn-glow give-cta" id="giveCta">
-                    Light Up Now <span class="give-cta-amt">— $50 One-Time</span> <span class="arr" aria-hidden="true">&rarr;</span>
+                    <span class="give-cta-label">INVEST <span class="give-cta-amt">$50 / MONTH</span></span> <span class="arr" aria-hidden="true">&rarr;</span>
                   </button>
 
                   <p class="give-note">Secured by The Chicago Lighthouse on Classy. 501(c)(3) tax-deductible.</p>
@@ -196,17 +212,10 @@
           </article>
 
           <!-- 3. ENTERPRISE -->
-          <article class="doorway dw-enterprise" aria-labelledby="dw-ent-title">
+          <article class="doorway dw-enterprise" id="enterprise" aria-labelledby="dw-ent-title">
+            <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true">
-              <img class="dw-poster" src="assets/poster-enterprise.jpg" alt="" />
-              <iframe
-                src="https://player.vimeo.com/video/1198599537?background=1&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1"
-                allow="autoplay; fullscreen"
-                allowfullscreen
-                title="Enterprise film — ambient loop"
-                loading="lazy"
-                tabindex="-1"
-              ></iframe>
+              <img class="dw-poster" src="assets/enterprise-contact-center.jpg" alt="" />
               <div class="dw-scrim"></div>
             </div>
             <button class="film-btn film-btn-center" data-film="1198599537" aria-label="Watch the Enterprise film with sound">
@@ -214,12 +223,12 @@
             </button>
             <div class="dw-content">
               <div class="dw-meta">
-                <span class="dw-num">03 &middot; Enterprise</span>
+                <span class="dw-num"><span class="dw-num-n">03</span> / Enterprise</span>
               </div>
               <div class="dw-body">
                 <h3 id="dw-ent-title" class="dw-title">
-                  <span class="glow-text">Lighting Up Your</span><br/>
-                  <span class="glow-text">Contact Center Experience.</span>
+                  <span class="glow-text breathe-warm">Lighting Up Your</span><br/>
+                  <span class="glow-text breathe-warm">Contact Center Experience.</span>
                 </h3>
                 <ul class="dw-list" aria-label="Enterprise capabilities">
                   <li>Mission-aligned agents</li>
@@ -246,8 +255,8 @@
               <p>Transcript placeholder. A descriptive text alternative for the Chicago Lighthouse hero film will live here once finalized. The film features staff, clients, and community members.</p>
             </div>
             <div>
-              <h4>Donor film</h4>
-              <p>Transcript placeholder. A descriptive text alternative for the Donor film will live here once finalized.</p>
+              <h4>Gift film</h4>
+              <p>Transcript placeholder. A descriptive text alternative for the Gift film will live here once finalized.</p>
             </div>
             <div>
               <h4>Enterprise film</h4>
@@ -257,6 +266,8 @@
         </details>
       </div>
     </section>
+
+    <hr class="lightline" aria-hidden="true" />
 
     <!-- ============ CURRENTLY UTILITY BAND ============ -->
     <section class="currently" aria-labelledby="currently-title">
@@ -325,6 +336,28 @@
         if (sz && ['s','m','l'].indexOf(sz) >= 0) body.setAttribute('data-text', sz);
       } catch(_) {}
 
+      // ---------- Closed Captions preference (persisted) ----------
+      // Default = on. Films currently only carry auto-generated English on Vimeo
+      // (lang code en-x-autogen). texttrack value matches.
+      var CC_LANG = 'en-x-autogen';
+      var ccOn = true;
+      try {
+        var stored = window.localStorage.getItem('clh-cc');
+        if (stored === '0') ccOn = false;
+      } catch(_) {}
+      var ccBtn = document.querySelector('[data-toggle="cc"]');
+      function applyCcState() {
+        if (!ccBtn) return;
+        ccBtn.setAttribute('aria-pressed', ccOn ? 'true' : 'false');
+        ccBtn.classList.toggle('is-on', ccOn);
+      }
+      function setCc(next) {
+        ccOn = !!next;
+        try { window.localStorage.setItem('clh-cc', ccOn ? '1' : '0'); } catch(_) {}
+        applyCcState();
+      }
+      applyCcState();
+
       // ---------- Film modal ----------
       var modal = document.getElementById('filmModal');
       var frame = document.getElementById('modalIframe');
@@ -333,7 +366,11 @@
 
       function openFilm(id, opener) {
         lastFocus = opener || document.activeElement;
-        frame.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1&texttrack=en';
+        // controls=1 (default) so the native Vimeo CC toggle is available.
+        // texttrack=<lang> turns captions on by default when CC preference is on.
+        var url = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+        if (ccOn) url += '&texttrack=' + encodeURIComponent(CC_LANG);
+        frame.src = url;
         modal.hidden = false;
         body.style.overflow = 'hidden';
         setTimeout(function(){ closeBtn.focus(); }, 40);
@@ -366,25 +403,105 @@
       });
 
       // Toggles (theme / motion)
+      var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function motionAllowed() {
+        return body.getAttribute('data-motion') !== 'reduced' && !prefersReducedMotion;
+      }
+
+      var switchFlash = document.getElementById('switchFlash');
+      function flashSwitch() {
+        if (!switchFlash || !motionAllowed()) return;
+        switchFlash.classList.remove('is-firing');
+        // force reflow so the class re-applies the animation
+        void switchFlash.offsetWidth;
+        switchFlash.classList.add('is-firing');
+        setTimeout(function(){ switchFlash.classList.remove('is-firing'); }, 700);
+      }
+
       document.querySelectorAll('[data-toggle]').forEach(function(btn){
         btn.addEventListener('click', function(){
           var key = btn.getAttribute('data-toggle');
+
+          if (key === 'cc') {
+            setCc(!ccOn);
+            return;
+          }
+
           var attr = key === 'theme' ? 'data-theme' : 'data-motion';
           var onVals = key === 'theme' ? ['default','contrast'] : ['auto','reduced'];
           var cur = body.getAttribute(attr) || onVals[0];
           var next = cur === onVals[0] ? onVals[1] : onVals[0];
+
+          if (key === 'theme') {
+            // light-sweep transition into / out of high contrast
+            body.classList.add('theme-transition');
+            flashSwitch();
+            setTimeout(function(){ body.classList.remove('theme-transition'); }, 600);
+          }
+
           body.setAttribute(attr, next);
           var pressed = next === onVals[1];
           btn.setAttribute('aria-pressed', pressed);
           btn.classList.toggle('is-on', pressed);
 
           if (key === 'motion' && pressed) {
-            // pause autoplay iframes
+            // pause autoplay iframes + retire the beacon
             document.querySelectorAll('.hero-video, .dw-media iframe').forEach(function(f){
               try { f.contentWindow.postMessage('{"method":"pause"}', '*'); } catch(_) {}
             });
+            var b = document.getElementById('beacon');
+            if (b) b.style.opacity = '0';
           }
         });
+      });
+
+      // ---------- Beacon cursor ----------
+      var beacon = document.getElementById('beacon');
+      var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      if (beacon && !hasTouch) {
+        var bx = -200, by = -200, tx = -200, ty = -200, raf = null;
+        function paint() {
+          bx += (tx - bx) * 0.22;
+          by += (ty - by) * 0.22;
+          beacon.style.transform = 'translate3d(' + (bx - 40) + 'px,' + (by - 40) + 'px, 0)';
+          if (Math.abs(tx - bx) > 0.5 || Math.abs(ty - by) > 0.5) {
+            raf = requestAnimationFrame(paint);
+          } else { raf = null; }
+        }
+        window.addEventListener('pointermove', function(e){
+          if (!motionAllowed()) { beacon.style.opacity = '0'; return; }
+          beacon.style.opacity = '1';
+          tx = e.clientX; ty = e.clientY;
+          if (!raf) raf = requestAnimationFrame(paint);
+        }, { passive: true });
+        window.addEventListener('pointerleave', function(){ beacon.style.opacity = '0'; });
+      }
+
+      // ---------- Hero letter-by-letter illumination ----------
+      var titleEl = document.querySelector('[data-illuminate]');
+      if (titleEl && motionAllowed()) {
+        var lineNodes = titleEl.querySelectorAll('[data-illuminate-line]');
+        var globalIdx = 0;
+        lineNodes.forEach(function(line){
+          var text = line.textContent;
+          line.textContent = '';
+          for (var i = 0; i < text.length; i++) {
+            var ch = text.charAt(i);
+            var span = document.createElement('span');
+            span.className = 'illum-char';
+            if (ch === ' ') { span.innerHTML = '&nbsp;'; }
+            else { span.textContent = ch; }
+            span.style.animationDelay = (globalIdx * 30) + 'ms';
+            line.appendChild(span);
+            globalIdx++;
+          }
+        });
+        titleEl.classList.add('is-illuminating');
+      }
+
+      // ---------- Lights-on load sequence ----------
+      requestAnimationFrame(function(){
+        body.classList.add('lights-on');
       });
 
       // ---------- Donation widget ----------
@@ -407,14 +524,14 @@
         var tierLabels  = giveForm.querySelectorAll('.give-tier');
         var tierInputs  = giveForm.querySelectorAll('input[name="give-amount"]');
 
-        var state = { freq: 'one-time', amount: 50, custom: false };
+        var state = { freq: 'monthly', amount: 50, custom: false };
 
         function updateCta() {
           var amt = state.custom
             ? (parseInt(giveOtherIn.value, 10) || 0)
             : state.amount;
-          var freqLabel = state.freq === 'monthly' ? '/ month' : 'One-Time';
-          var amtLabel = amt > 0 ? '— $' + amt + ' ' + freqLabel : (state.freq === 'monthly' ? 'Monthly' : 'One-Time');
+          var freqSuffix = state.freq === 'monthly' ? ' / MONTH' : '';
+          var amtLabel = amt > 0 ? '$' + amt + freqSuffix : (state.freq === 'monthly' ? '/ MONTH' : '');
           giveCtaAmt.textContent = amtLabel;
           giveCta.disabled = state.custom && amt < 1;
         }

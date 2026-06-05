@@ -94,9 +94,19 @@ body[data-motion="reduced"] *, body[data-motion="reduced"] *::before, body[data-
 }
 body[data-motion="reduced"] .hero-video,
 body[data-motion="reduced"] .dw-media iframe { display: none !important; }
+body[data-motion="reduced"] .beacon { display: none !important; }
+body[data-motion="reduced"] .breathe-warm { animation: none !important; }
+body[data-motion="reduced"] .illum-char { opacity: 1 !important; transform: none !important; animation: none !important; filter: none !important; }
+body[data-motion="reduced"] .doorway { opacity: 1 !important; transform: none !important; }
+body[data-motion="reduced"] .lightsweep { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .btn-pulse, .scroll-dot { animation: none !important; }
   .hero-video, .dw-media iframe { display: none !important; }
+  .beacon { display: none !important; }
+  .breathe-warm { animation: none !important; }
+  .illum-char { opacity: 1 !important; transform: none !important; animation: none !important; filter: none !important; }
+  .doorway { opacity: 1 !important; transform: none !important; }
+  .lightsweep { display: none !important; }
 }
 
 /* Reset-ish */
@@ -329,9 +339,13 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
 }
 .hero-scrim {
   position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(7,34,58,0.30) 0%, rgba(7,34,58,0.20) 35%, rgba(7,34,58,0.86) 100%),
-    radial-gradient(80% 60% at 20% 110%, rgba(216,99,42,0.30), transparent 60%);
+    linear-gradient(to bottom,
+      rgba(10, 26, 46, 0) 0%,
+      rgba(10, 26, 46, 0) 55%,
+      rgba(10, 26, 46, 0.78) 100%),
+    radial-gradient(80% 60% at 20% 110%, rgba(216, 99, 42, 0.28), transparent 62%);
 }
 .hero-inner { position: relative; z-index: 3; max-width: 60rem; padding-top: 12vh; }
 
@@ -920,4 +934,722 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
 /* 200% zoom safety: keep layout from collapsing horizontally */
 @media (max-width: 360px) {
   .hero-title { font-size: 2.5rem; }
+}
+
+/* =====================================================
+   v3.1 — "Lighting Up" design layer
+   Load choreography, beacon cursor, light sweep, hero
+   illumination, breathing accents, light dividers,
+   switch flash, light-trail, layout tune-ups.
+   ===================================================== */
+
+/* ---------- Layout: header upgrades (bigger logo, smaller cta, section nav) ---------- */
+.header-inner {
+  grid-template-columns: auto auto 1fr auto auto;
+  column-gap: 1.25rem;
+}
+.brand img { height: 4.25rem; }
+.section-nav {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+.section-nav-link {
+  display: inline-flex; align-items: baseline; gap: 0.375rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-dark-2);
+  transition: color .15s ease, background-color .15s ease, box-shadow .25s ease;
+}
+.section-nav-link:hover, .section-nav-link:focus-visible {
+  color: #fff;
+  background: rgba(255, 175, 90, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 175, 90, 0.45);
+}
+.section-nav-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--orange);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Shrink the header pill ~45% */
+.header-cta {
+  padding: 0.4375rem 0.875rem;
+  font-size: 0.78125rem;
+  min-height: 2rem;
+  letter-spacing: 0.03em;
+}
+
+/* Big hero CTA: front-door pill */
+.btn-hero-door {
+  padding: 1.125rem 1.875rem;
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  min-height: 3.375rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #FF9E48 0%, var(--orange) 45%, var(--orange-deep) 100%);
+  color: #fff;
+  border: 1.5px solid rgba(255, 200, 140, 0.7);
+  box-shadow:
+    0 12px 36px rgba(216, 99, 42, 0.40),
+    0 0 38px rgba(255, 150, 70, 0.55),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  animation: door-breathe 5.4s ease-in-out infinite;
+}
+.btn-hero-door:hover, .btn-hero-door:focus-visible {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 44px rgba(216, 99, 42, 0.55),
+    0 0 64px rgba(255, 170, 90, 0.85),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  background: linear-gradient(135deg, #FFB870 0%, #FF8B3D 45%, #E16A2A 100%);
+}
+@keyframes door-breathe {
+  0%, 100% { box-shadow: 0 12px 36px rgba(216, 99, 42, 0.40), 0 0 28px rgba(255, 150, 70, 0.40), inset 0 1px 0 rgba(255,255,255,0.25); }
+  50%      { box-shadow: 0 14px 40px rgba(216, 99, 42, 0.52), 0 0 56px rgba(255, 160, 80, 0.70), inset 0 1px 0 rgba(255,255,255,0.30); }
+}
+.btn-hero-door .arr {
+  font-size: 1.125em;
+  margin-left: 0.125rem;
+}
+
+/* Hero row tuning so the big CTA reads as primary */
+.hero-row { gap: 1rem 1.5rem; row-gap: 1rem; }
+.film-btn-hero { padding: 0.6875rem 1.125rem; }
+
+/* ---------- Lights-on load sequence ---------- */
+body { opacity: 0.04; transition: opacity .5s ease; }
+body.lights-on { opacity: 1; }
+
+.hero-poster, .hero-scrim, .hero-inner, .brand-light {
+  transition: opacity .6s ease, transform .6s ease, filter .8s ease;
+}
+body:not(.lights-on) .hero-inner { opacity: 0; transform: translateY(8px); }
+body.lights-on .hero-inner { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+body:not(.lights-on) .brand-light { opacity: 0; transform: scale(0.6); }
+body.lights-on .brand-light { opacity: 0.85; transform: scale(1); transition-delay: 0.05s; }
+
+.doorway {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .55s ease, transform .55s ease, border-color .25s ease, box-shadow .3s ease, filter .3s ease;
+}
+body.lights-on .doorway { opacity: 1; transform: translateY(0); }
+body.lights-on .doorways .doorway:nth-child(1) { transition-delay: 0.75s; }
+body.lights-on .doorways .doorway:nth-child(2) { transition-delay: 1.05s; }
+body.lights-on .doorways .doorway:nth-child(3) { transition-delay: 1.35s; }
+
+/* ---------- Beacon cursor ---------- */
+.beacon {
+  position: fixed;
+  top: 0; left: 0;
+  width: 80px; height: 80px;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0;
+  border-radius: 999px;
+  background: radial-gradient(closest-side,
+    rgba(255, 180, 110, 0.55) 0%,
+    rgba(255, 150, 70, 0.22) 45%,
+    rgba(255, 140, 60, 0.00) 75%);
+  mix-blend-mode: screen;
+  filter: blur(2px);
+  transition: opacity .25s ease;
+  will-change: transform;
+}
+@media (hover: none) { .beacon { display: none !important; } }
+
+/* ---------- Letter-by-letter hero illumination ---------- */
+.hero-title[data-illuminate] .illum-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(6px);
+  text-shadow: 0 0 0 rgba(255, 184, 110, 0);
+  animation: illum-on .9s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes illum-on {
+  0%   { opacity: 0; transform: translateY(8px); filter: blur(6px); text-shadow: 0 0 0 rgba(255, 184, 110, 0); }
+  55%  { opacity: 1; transform: translateY(0);   filter: blur(0);   text-shadow: 0 0 22px rgba(255, 200, 130, 0.85), 0 0 6px rgba(255, 200, 130, 0.5); }
+  100% { opacity: 1; transform: translateY(0);   filter: blur(0);   text-shadow: var(--glow-text-strong); }
+}
+
+/* ---------- Breathing accent words ---------- */
+.breathe-warm { animation: breathe-text 4s ease-in-out infinite; }
+@keyframes breathe-text {
+  0%, 100% { text-shadow: 0 0 12px rgba(255, 184, 110, 0.40); }
+  50%      { text-shadow: 0 0 22px rgba(255, 184, 110, 0.70), 0 0 6px rgba(255, 200, 130, 0.45); }
+}
+
+/* ---------- Light-sweep on hover for doorway cards ---------- */
+.lightsweep {
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-120%) skewX(-18deg);
+  background: linear-gradient(115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 200, 130, 0.20) 45%,
+    rgba(255, 255, 255, 0.32) 50%,
+    rgba(255, 200, 130, 0.20) 55%,
+    rgba(255, 255, 255, 0) 100%);
+  mix-blend-mode: screen;
+  filter: blur(2px);
+}
+.doorway:hover .lightsweep,
+.doorway:focus-within .lightsweep {
+  animation: lightsweep-go .85s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes lightsweep-go {
+  0%   { opacity: 0; transform: translateX(-120%) skewX(-18deg); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(260%) skewX(-18deg); }
+}
+
+/* ---------- Horizontal light-line dividers ---------- */
+hr.lightline {
+  position: relative;
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(90deg,
+    rgba(255, 140, 60, 0) 0%,
+    rgba(255, 175, 90, 0.55) 50%,
+    rgba(255, 140, 60, 0) 100%);
+  box-shadow: 0 0 18px rgba(255, 140, 60, 0.30);
+  overflow: visible;
+}
+hr.lightline::before {
+  content: "";
+  position: absolute;
+  inset: -1px 25% auto 25%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    rgba(255, 200, 130, 0) 0%,
+    rgba(255, 220, 160, 0.55) 50%,
+    rgba(255, 200, 130, 0) 100%);
+  filter: blur(2px);
+  opacity: 0.7;
+}
+
+/* Currently band: keep the cream face, kill the heavy orange bar */
+.currently { border-top: 0; }
+
+/* ---------- Theme-switch flash ---------- */
+.switch-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  opacity: 0;
+}
+.switch-flash.is-firing {
+  animation: switch-sweep .6s ease-out forwards;
+}
+@keyframes switch-sweep {
+  0%   { opacity: 0; background: linear-gradient(110deg, rgba(255, 200, 130, 0) 0%, rgba(255, 200, 130, 0) 100%); }
+  20%  { opacity: 1; background: linear-gradient(110deg, rgba(255, 200, 130, 0) -20%, rgba(255, 220, 160, 0.75) 0%, rgba(255, 200, 130, 0.0) 35%); }
+  60%  { opacity: 1; background: linear-gradient(110deg, rgba(255, 200, 130, 0) 30%, rgba(255, 220, 160, 0.75) 65%, rgba(255, 200, 130, 0.0) 100%); }
+  100% { opacity: 0; background: linear-gradient(110deg, rgba(255, 200, 130, 0) 75%, rgba(255, 220, 160, 0.0) 120%); }
+}
+.theme-transition,
+.theme-transition * {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease, box-shadow .4s ease, filter .4s ease !important;
+}
+
+/* ---------- Light trail running through the three doorways ---------- */
+.doorways-section { position: relative; }
+.lighttrail {
+  position: absolute;
+  top: clamp(2.5rem, 6vw, 4.5rem);
+  bottom: clamp(2.5rem, 6vw, 4.5rem);
+  left: calc(var(--gutter, 1.5rem) + 0.625rem);
+  width: 2px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(255, 140, 60, 0.08) 0%,
+    rgba(255, 175, 90, 0.16) 50%,
+    rgba(255, 140, 60, 0.08) 100%);
+  overflow: hidden;
+  z-index: 5;
+}
+.lighttrail::after {
+  content: "";
+  position: absolute;
+  left: -3px; right: -3px;
+  height: 22%;
+  border-radius: 999px;
+  background: linear-gradient(180deg,
+    rgba(255, 180, 110, 0) 0%,
+    rgba(255, 200, 130, 0.95) 50%,
+    rgba(255, 180, 110, 0) 100%);
+  filter: blur(2px);
+  box-shadow: 0 0 22px rgba(255, 170, 90, 0.85), 0 0 38px rgba(255, 140, 60, 0.55);
+  animation: trail-run 6s cubic-bezier(.4,0,.6,1) infinite;
+  top: -22%;
+}
+@keyframes trail-run {
+  0%   { transform: translateY(0); opacity: 0; }
+  6%   { opacity: 1; }
+  72%  { opacity: 1; transform: translateY(calc(100vh)); }
+  78%  { opacity: 0; transform: translateY(calc(100vh + 40px)); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+/* Each doorway brightens as the trail passes through */
+.doorway { transition: opacity .55s ease, transform .55s ease, border-color .25s ease, box-shadow .3s ease, filter .6s ease; }
+@keyframes doorway-glow-on {
+  0%, 100% { box-shadow: var(--shadow-1); filter: brightness(1); }
+  50%      { box-shadow: var(--shadow-1), 0 0 80px rgba(255, 140, 60, 0.55); filter: brightness(1.08); }
+}
+body.lights-on .doorways .doorway:nth-child(1) {
+  animation: doorway-glow-on 6s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+body.lights-on .doorways .doorway:nth-child(2) {
+  animation: doorway-glow-on 6s ease-in-out infinite;
+  animation-delay: 2.2s;
+}
+body.lights-on .doorways .doorway:nth-child(3) {
+  animation: doorway-glow-on 6s ease-in-out infinite;
+  animation-delay: 3.8s;
+}
+
+/* Reduced-motion: trail becomes a static thin warm line, doorway pulses off */
+body[data-motion="reduced"] .lighttrail::after { display: none; }
+body[data-motion="reduced"] .doorways .doorway { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .lighttrail::after { display: none; }
+  .doorways .doorway { animation: none !important; }
+  .btn-hero-door { animation: none !important; }
+  body { opacity: 1 !important; }
+  body:not(.lights-on) .hero-inner,
+  body:not(.lights-on) .brand-light { opacity: 1 !important; transform: none !important; }
+  .doorway { opacity: 1 !important; transform: none !important; }
+  .illum-char { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; text-shadow: var(--glow-text-strong) !important; }
+}
+
+/* Responsive: section nav appears mid-sized screens up */
+@media (min-width: 820px) {
+  .section-nav { display: inline-flex; }
+}
+@media (max-width: 819px) {
+  .header-inner { grid-template-columns: auto 1fr auto auto; }
+}
+@media (max-width: 720px) {
+  .brand img { height: 3.25rem; }
+}
+@media (max-width: 480px) {
+  .brand img { height: 2.875rem; }
+  .header-cta { padding: 0.375rem 0.6875rem; font-size: 0.6875rem; min-height: 1.75rem; }
+  .btn-hero-door { padding: 0.9375rem 1.375rem; font-size: 0.9375rem; }
+  .lighttrail { left: calc(var(--gutter) + 0.25rem); }
+}
+@media (min-width: 1024px) {
+  .lighttrail { left: max(calc((100% - var(--maxw)) / 2 + 1rem), 1.25rem); }
+}
+
+/* =====================================================
+   v3.2 — Universal orange-glow button system
+   Every interactive control is orange w/ resting halo.
+   Hover/focus = LIT. Active = momentary halo dip.
+   Tertiary text links (Currently band) stay quiet.
+   ===================================================== */
+
+/* Resting glow tokens for the universal system */
+:root {
+  --btn-orange:        #F37335;
+  --btn-orange-bright: #FF8B3D;
+  --btn-orange-deep:   #D8632A;
+  --btn-halo-rest:     0 0 24px rgba(255, 107, 26, 0.40), 0 4px 12px rgba(0, 0, 0, 0.20);
+  --btn-halo-lit:      0 0 48px rgba(255, 140, 50, 0.70), 0 8px 20px rgba(255, 107, 26, 0.35);
+  --btn-focus-ring:    inset 0 0 0 4px rgba(255, 200, 100, 0.55);
+  --btn-trans:         all 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* PRIMARY — all default buttons + accents share the same orange glow */
+.btn,
+.btn-accent,
+.film-btn,
+.a11y-btn,
+.modal-close,
+.give-freq-btn,
+.give-tier,
+.give-cta {
+  background: var(--btn-orange);
+  color: #fff;
+  border: 1.5px solid transparent;
+  box-shadow: var(--btn-halo-rest);
+  transition: var(--btn-trans);
+}
+
+.btn:hover, .btn:focus-visible,
+.btn-accent:hover, .btn-accent:focus-visible,
+.film-btn:hover, .film-btn:focus-visible,
+.a11y-btn:hover, .a11y-btn:focus-visible,
+.modal-close:hover, .modal-close:focus-visible,
+.give-freq-btn:hover, .give-freq-btn:focus-visible,
+.give-tier:hover, .give-tier:focus-within,
+.give-cta:hover, .give-cta:focus-visible {
+  background: var(--btn-orange-bright);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--btn-halo-lit);
+  border-color: rgba(255, 200, 140, 0.7);
+}
+
+.btn:focus-visible,
+.btn-accent:focus-visible,
+.film-btn:focus-visible,
+.a11y-btn:focus-visible,
+.modal-close:focus-visible,
+.give-freq-btn:focus-visible,
+.give-cta:focus-visible {
+  box-shadow: var(--btn-halo-lit), var(--btn-focus-ring);
+}
+.give-tier:focus-within {
+  box-shadow: var(--btn-halo-lit), var(--btn-focus-ring);
+}
+
+.btn:active,
+.btn-accent:active,
+.film-btn:active,
+.a11y-btn:active,
+.modal-close:active,
+.give-freq-btn:active,
+.give-cta:active {
+  background: var(--btn-orange-deep);
+  transform: translateY(0);
+  box-shadow: 0 0 14px rgba(255, 107, 26, 0.30), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* The hero "Enter the Site" door keeps its richer gradient + larger halo */
+.btn-hero-door {
+  background: linear-gradient(135deg, #FF9E48 0%, var(--btn-orange) 45%, var(--btn-orange-deep) 100%);
+  border-color: rgba(255, 200, 140, 0.7);
+}
+.btn-hero-door:hover, .btn-hero-door:focus-visible {
+  background: linear-gradient(135deg, #FFB870 0%, var(--btn-orange-bright) 45%, #E16A2A 100%);
+  box-shadow:
+    0 18px 48px rgba(216, 99, 42, 0.55),
+    0 0 72px rgba(255, 170, 90, 0.90),
+    var(--btn-focus-ring);
+}
+
+/* Header pill — small donate shortcut, but lit */
+.header-cta {
+  background: var(--btn-orange);
+  color: #fff;
+  box-shadow: var(--btn-halo-rest);
+}
+.header-cta:hover, .header-cta:focus-visible {
+  background: var(--btn-orange-bright);
+  box-shadow: var(--btn-halo-lit);
+  transform: translateY(-1px);
+}
+
+/* SECONDARY — transparent fill, orange border + text, lit halo */
+.btn-ghost-light,
+.btn-light,
+.give-alt-link {
+  background: transparent;
+  color: var(--btn-orange);
+  border: 1.5px solid var(--btn-orange);
+  box-shadow: var(--btn-halo-rest);
+  transition: var(--btn-trans);
+}
+.btn-ghost-light:hover, .btn-ghost-light:focus-visible,
+.btn-light:hover, .btn-light:focus-visible {
+  background: var(--btn-orange);
+  color: #fff;
+  border-color: var(--btn-orange);
+  box-shadow: var(--btn-halo-lit);
+  transform: translateY(-2px);
+}
+.btn-ghost-light:focus-visible,
+.btn-light:focus-visible {
+  box-shadow: var(--btn-halo-lit), var(--btn-focus-ring);
+}
+
+/* Give-alt links live as text-style secondaries with a quieter halo */
+.give-alt-link {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 175, 90, 0.30);
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--orange);
+  padding: 0.625rem 0.125rem;
+  text-shadow: 0 0 8px rgba(255, 140, 60, 0.45);
+}
+.give-alt-link:hover, .give-alt-link:focus-visible {
+  background: transparent;
+  color: #fff;
+  border-bottom-color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 184, 110, 0.85);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(255, 140, 60, 0.25);
+}
+.give-alt-link .arr { color: var(--orange); }
+.give-alt-link:hover .arr, .give-alt-link:focus-visible .arr { color: #fff; }
+
+/* TERTIARY — Currently band text links stay quiet utility */
+.currently-grid a {
+  color: var(--navy);
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+  transition: color 0.15s ease, padding 0.2s ease;
+}
+.currently-grid a:hover,
+.currently-grid a:focus-visible {
+  color: var(--orange-deep);
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+  transform: none;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+.foot-links a {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+.foot-links a:hover, .foot-links a:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+/* A11y bar overrides — keep the new orange treatment compact */
+.a11y-bar {
+  padding: 0.3125rem 0.4375rem;
+  background: rgba(7, 34, 58, 0.55);
+  border-color: rgba(255, 175, 90, 0.32);
+}
+.a11y-btn {
+  min-width: 2.5rem; min-height: 2.5rem;
+  padding: 0 0.6875rem;
+  background: var(--btn-orange);
+  color: #fff;
+  box-shadow: var(--btn-halo-rest);
+  transition: var(--btn-trans);
+  border-radius: 999px;
+}
+.a11y-btn:hover {
+  background: var(--btn-orange-bright);
+  color: #fff;
+  box-shadow: var(--btn-halo-lit);
+  transform: translateY(-1px);
+}
+.a11y-btn .dot {
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 0 6px rgba(255,255,255,0.55);
+}
+.a11y-btn.is-on, .a11y-btn[aria-pressed="true"] {
+  background: var(--btn-orange-bright);
+  color: #fff;
+  box-shadow: var(--btn-halo-lit);
+}
+.a11y-btn.is-on .dot, .a11y-btn[aria-pressed="true"] .dot {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255, 220, 160, 0.95);
+}
+.a11y-group {
+  border-color: rgba(255, 175, 90, 0.45);
+}
+
+/* Watch the Film center overlay — orange + halo, no longer dark glass */
+.film-btn-center, .film-btn-corner {
+  background: var(--btn-orange);
+  color: #fff;
+  border-color: rgba(255, 200, 140, 0.7);
+  box-shadow: var(--btn-halo-rest);
+}
+.film-btn-center:hover, .film-btn-center:focus-visible {
+  background: var(--btn-orange-bright);
+  transform: translate(-50%, calc(-50% - 3px));
+  box-shadow: var(--btn-halo-lit);
+}
+.film-btn-corner:hover, .film-btn-corner:focus-visible {
+  background: var(--btn-orange-bright);
+  box-shadow: var(--btn-halo-lit);
+  transform: translateY(-2px);
+}
+
+/* Modal close — orange circle, lights up on hover */
+.modal-close {
+  background: var(--btn-orange);
+  border-color: rgba(255, 200, 140, 0.7);
+  color: #fff;
+  box-shadow: var(--btn-halo-rest);
+}
+.modal-close:hover, .modal-close:focus-visible {
+  background: var(--btn-orange-bright);
+  transform: scale(1.06);
+  box-shadow: var(--btn-halo-lit);
+}
+
+/* Donation tier selected state — keeps differentiation when all tiles glow */
+.give-tier.is-on {
+  background: var(--btn-orange-bright);
+  border-color: rgba(255, 220, 160, 0.95);
+  color: #fff;
+  box-shadow: var(--btn-halo-lit), inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+.give-tier {
+  border: 1.5px solid rgba(255, 200, 140, 0.55);
+}
+.give-tier:not(.is-on) {
+  background: rgba(243, 115, 53, 0.85);
+}
+
+/* Frequency toggle — selected gets the brighter halo */
+.give-freq {
+  background: rgba(7, 34, 58, 0.55);
+  border: 1px solid rgba(255, 175, 90, 0.32);
+}
+.give-freq-btn { background: var(--btn-orange); color: #fff; box-shadow: var(--btn-halo-rest); }
+.give-freq-btn.is-on, .give-freq-btn[aria-pressed="true"] {
+  background: var(--btn-orange-bright);
+  box-shadow: var(--btn-halo-lit);
+}
+
+/* Primary INVEST CTA — bigger weight on the label */
+.give-cta { font-size: 1.0625rem; }
+.give-cta-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.give-cta-amt {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-left: 0.25rem;
+}
+
+/* Reduced motion — kill all button transitions, keep static halo */
+body[data-motion="reduced"] .btn,
+body[data-motion="reduced"] .btn-accent,
+body[data-motion="reduced"] .film-btn,
+body[data-motion="reduced"] .a11y-btn,
+body[data-motion="reduced"] .modal-close,
+body[data-motion="reduced"] .give-freq-btn,
+body[data-motion="reduced"] .give-tier,
+body[data-motion="reduced"] .give-cta,
+body[data-motion="reduced"] .header-cta,
+body[data-motion="reduced"] .btn-hero-door {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn-accent, .film-btn, .a11y-btn, .modal-close,
+  .give-freq-btn, .give-tier, .give-cta, .header-cta, .btn-hero-door {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High-contrast overrides for the universal button system */
+body[data-theme="contrast"] .btn,
+body[data-theme="contrast"] .btn-accent,
+body[data-theme="contrast"] .film-btn,
+body[data-theme="contrast"] .a11y-btn,
+body[data-theme="contrast"] .modal-close,
+body[data-theme="contrast"] .give-freq-btn,
+body[data-theme="contrast"] .give-tier,
+body[data-theme="contrast"] .give-cta,
+body[data-theme="contrast"] .header-cta,
+body[data-theme="contrast"] .btn-hero-door {
+  background: #FFD400 !important;
+  color: #000 !important;
+  border-color: #000 !important;
+  box-shadow: 0 0 0 2px #FFD400, 0 0 0 4px #000 !important;
+}
+body[data-theme="contrast"] .btn-ghost-light,
+body[data-theme="contrast"] .btn-light,
+body[data-theme="contrast"] .give-alt-link {
+  background: #000 !important;
+  color: #FFD400 !important;
+  border-color: #FFD400 !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   v3.3 — Locked hero headline
+   Line 1: LIGHTING UP HUMAN POTENTIAL. (uppercase dominant)
+   Line 2: Today. (script italic warm accent, breathing)
+   ===================================================== */
+.hero-title { line-height: 0.96; letter-spacing: -0.015em; }
+.hero-line-dominant {
+  display: block;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  color: #fff;
+  text-shadow: 0 4px 24px rgba(7, 34, 58, 0.55), 0 0 18px rgba(255, 184, 110, 0.20);
+}
+.hero-title .hero-accent {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--orange);
+  font-size: 0.56em;
+  line-height: 1.05;
+  margin-top: 0.5rem;
+  letter-spacing: 0;
+}
+@media (min-width: 720px) {
+  .hero-title .hero-accent { font-size: 0.5em; margin-top: 0.625rem; }
+}
+
+/* =====================================================
+   v3.4 — Colored brand mark on cream backing
+   Header keeps cinematic-over-hero treatment; the colored
+   logo gets a soft cream backing so navy wordmark reads.
+   ===================================================== */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.875rem 0.5rem 0.75rem;
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--cream) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 175, 90, 0.55);
+  box-shadow:
+    0 6px 22px rgba(7, 34, 58, 0.30),
+    0 0 28px rgba(255, 140, 60, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.brand img {
+  filter: none;
+  height: 4.25rem;
+}
+@media (max-width: 720px) {
+  .brand { padding: 0.4375rem 0.6875rem; border-radius: 12px; }
+  .brand img { height: 3rem; }
+}
+@media (max-width: 480px) {
+  .brand { padding: 0.375rem 0.625rem; border-radius: 10px; }
+  .brand img { height: 2.5rem; }
+}
+body[data-theme="contrast"] .brand {
+  background: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 0 0 2px #FFD400, 0 0 0 4px #000 !important;
 }
