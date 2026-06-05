@@ -1979,3 +1979,21 @@ body[data-theme="contrast"] .site-header {
 
 /* Currently band: ensure brand orange hover still passes */
 .currently-grid a:hover { color: var(--orange-deep); }
+
+/* Sticky header offset so doorway titles don't tuck behind it on scroll */
+.doorway { scroll-margin-top: 6rem; }
+
+/* Tablet 720-1024: collapse a11y text labels to keep the header on one row */
+@media (min-width: 720px) and (max-width: 1023px) {
+  .a11y-btn .a11y-text { display: none; }
+  .a11y-btn[data-toggle] { padding: 0 0.625rem; }
+  .a11y-label { display: none; }
+  .a11y-group { padding: 0 0.25rem; }
+}
+@media (max-width: 1023px) {
+  /* Smaller donate pill at tablet so a11y bar + pill both fit */
+  .header-cta {
+    padding: 0.4375rem 0.75rem !important;
+    font-size: 0.8125rem !important;
+  }
+}
