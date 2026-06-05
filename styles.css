@@ -2149,8 +2149,10 @@ body[data-theme="contrast"] .dw-section-num   { color: #FFD400 !important; }
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 1.5rem;
+    min-width: 0; /* prevent inner content min-content from blowing up the 1fr column */
   }
-  .doorway-group .doorway { height: 100%; }
+  .doorway-group .doorway { height: 100%; min-width: 0; }
+  .doorway-group .dw-section-title { min-width: 0; overflow-wrap: break-word; }
 }
 
 /* GIFT breathing room — push donation widget DOWN inside the
