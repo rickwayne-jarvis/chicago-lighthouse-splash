@@ -1959,3 +1959,23 @@ body[data-theme="contrast"] .site-header {
   background: #000 !important;
   border-bottom-color: #FFD400 !important;
 }
+
+/* ---------- v3.5.3 — Contrast fixes (failing pairs) ---------- */
+/* Sponsor / Volunteer alt links: bump from #F37335 to a brighter warm */
+.give-alt-link {
+  color: #FFB870;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+}
+.give-alt-link .arr { color: #FFB870; }
+.give-alt-link:hover, .give-alt-link:focus-visible {
+  color: #ffffff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+
+/* Hero accent (Today.): brighten to AAA */
+.hero-title .hero-accent {
+  color: #FFCB94;
+}
+
+/* Currently band: ensure brand orange hover still passes */
+.currently-grid a:hover { color: var(--orange-deep); }
