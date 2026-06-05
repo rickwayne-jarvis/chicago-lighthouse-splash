@@ -304,10 +304,12 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   isolation: isolate;
   color: #fff;
   overflow: hidden;
-  /* Cap hero to a 16:9 box so the ambient video fills cleanly without
-     cover-math gymnastics. max-height clamps it on short viewports. */
+  /* Hero aspect locked to the actual ambient video (Vimeo 1198599538 is
+     2882x1080 native, ~2.67:1). With this ratio the iframe at 100%/100%
+     fills the hero edge to edge — no letterbox, no cover math.
+     max-height caps on short viewports. */
   width: 100vw;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2882 / 1080;
   max-height: 100dvh;
   display: flex;
   align-items: flex-end;
@@ -884,12 +886,22 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
 @media (max-width: 480px) {
   :root { --gutter: 1.125rem; }
   .brand img { height: 2.375rem; }
-  /* Portrait phones: a strict 16:9 hero (~56vw tall) is too short to fit
-     headline + lede + CTAs. Force a minimum of 60dvh so text breathes. */
+  /* Portrait phones: a strict 2.67:1 hero (~37vw tall) is far too short
+     to fit headline + lede + CTAs. Use a fixed 70dvh hero and put real
+     cover math back on the iframe so the wide video fills the tall box
+     edge to edge without stretching. */
   .hero {
     aspect-ratio: auto;
-    height: min(100dvh, max(56.25vw, 60dvh));
+    height: 70dvh;
     max-height: none;
+  }
+  .hero-video {
+    top: 50%;
+    left: 50%;
+    inset: auto;
+    width: max(100vw, calc(70dvh * 2882 / 1080));
+    height: max(70dvh, calc(100vw * 1080 / 2882));
+    transform: translate(-50%, -50%);
   }
   .doorway { min-height: 22rem; }
   .dw-donor { min-height: 32rem; }
