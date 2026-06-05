@@ -304,10 +304,12 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   isolation: isolate;
   color: #fff;
   overflow: hidden;
-  /* Normal-height hero. The ambient video covers this box (fits height,
-     crops sides) via container-query cover math on .hero-video below. */
+  /* Shortened hero so the orange CARE/DONATE/ENTERPRISE tile caps that
+     top the doorway columns below peek above the fold on landing.
+     The ambient video covers this box (fits height, crops sides) via
+     container-query cover math on .hero-video below. */
   width: 100vw;
-  height: min(100dvh, 800px);
+  height: min(70dvh, 720px);
   display: flex;
   align-items: flex-end;
   padding: 0 0 clamp(4rem, 9vh, 8rem);
@@ -904,10 +906,11 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
 @media (max-width: 480px) {
   :root { --gutter: 1.125rem; }
   .brand img { height: 2.375rem; }
-  /* Phones: full-viewport hero. The container-query cover math on
-     .hero-video (in the base rule) fills the box regardless of aspect. */
+  /* Phones: a slightly shorter hero so the first orange tile cap on the
+     CARE column peeks above the fold. Container-query cover math on
+     .hero-video (base rule) still fills the box regardless of aspect. */
   .hero {
-    height: 100dvh;
+    height: 80dvh;
     max-height: none;
   }
   .doorway { min-height: 22rem; }
@@ -2239,21 +2242,15 @@ body[data-theme="contrast"] .dw-section-num   { color: #FFD400 !important; }
 }
 
 /* =====================================================
-   v3.8 — Hero pathway tiles
-   Three orange CTA tiles (CARE / GIFT / ENTERPRISE) sit
-   inside the hero, directly under the Enter the Site CTA,
-   so Rick lands and sees the three pathways above the fold.
-   They scroll-anchor to the matching doorway card below.
+   v3.9 — Pathway tile caps on each doorway column
+   The CARE / DONATE / ENTERPRISE orange tiles sit at the
+   top of each .doorway-group as the cap of its column.
+   With the hero shortened, the tile tops peek above the
+   fold on landing and become full column-headers as the
+   user scrolls into the doorways section.
    ===================================================== */
-.hero-tiles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(0.5rem, 1.2vw, 1rem);
-  margin-top: clamp(1.25rem, 2.4vh, 1.75rem);
-  width: 100%;
-  max-width: 56rem;
-}
 .hero-tile {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2288,12 +2285,24 @@ body[data-theme="contrast"] .dw-section-num   { color: #FFD400 !important; }
   outline: none;
 }
 @media (max-width: 560px) {
-  .hero-tiles {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    max-width: 100%;
-  }
   .hero-tile { min-height: 3rem; font-size: 1rem; }
+}
+
+/* Cap mode: when a .hero-tile is the first child of a .doorway-group it
+   reads as the orange header of the column. Square the seam between
+   tile and card so they read as one continuous shape. */
+.doorway-group {
+  gap: 0;
+}
+.doorway-group > .hero-tile {
+  border-radius: 0.875rem 0.875rem 0 0;
+  border-bottom: 0;
+  letter-spacing: 0.06em;
+}
+.doorway-group > .hero-tile + .doorway {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 /* High-contrast theme: keep tiles legible against the yellow/black scheme. */
 body[data-theme="contrast"] .hero-tile {
