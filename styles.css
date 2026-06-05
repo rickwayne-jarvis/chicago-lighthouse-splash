@@ -1789,7 +1789,7 @@ body { font-size: var(--fs-base); line-height: 1.55; }
 /* v3.6.1 — Unified doorway scrim: 25% navy top → 88% navy bottom.
    Lighter top band lets the GIFT/ENTERPRISE poster and video reads through
    instead of getting flattened to navy. Bottom still keeps AA contrast
-   under the content block. Identical on EXPLORE, GIFT, and ENTERPRISE. */
+   under the content block. Identical on CARE, GIFT, and ENTERPRISE. */
 .dw-scrim,
 .dw-scrim-deep,
 .dw-scrim-donor {
@@ -1898,7 +1898,7 @@ body[data-theme="contrast"] .site-header {
 
 /* Primary doorway CTA: identical solid-orange fill, warm halo at rest,
    brighter halo + lift on hover. Wins specificity against any earlier
-   .btn-ghost-light/.btn-light cascade so EXPLORE, GIFT (INVEST), and
+   .btn-ghost-light/.btn-light cascade so CARE, GIFT (INVEST), and
    ENTERPRISE all read as the same primary action. */
 .doorway .btn.dw-cta-primary,
 .doorway .btn.give-cta {
@@ -1991,7 +1991,7 @@ body[data-theme="contrast"] .site-header {
 }
 
 /* The number / label pill — identical pixel treatment across
-   EXPLORE, GIFT, ENTERPRISE. Same min-height as Watch pill so
+   CARE, GIFT, ENTERPRISE. Same min-height as Watch pill so
    the two pills share a horizontal baseline. */
 .doorway .dw-num,
 .doorway .dw-meta .dw-num {
@@ -2100,7 +2100,7 @@ body[data-theme="contrast"] .site-header {
    v3.8.0 — Big block-letter section headers
    Lift the section labels OUT of each card and place them
    ABOVE as huge editorial display titles. Each doorway
-   becomes a chapter: EXPLORE / GIFT / ENTERPRISE.
+   becomes a chapter: CARE / GIFT / ENTERPRISE.
    ===================================================== */
 
 /* The grid now holds three .doorway-group items instead of
