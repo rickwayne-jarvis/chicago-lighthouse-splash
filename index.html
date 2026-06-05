@@ -540,8 +540,14 @@
 
       // ---------- Lazy background videos (GIFT + ENTERPRISE) ----------
       // Photo loads instantly as poster; iframe injects only when motion is
-      // allowed and the user scrolls the section into view. Falls back to
-      // photo if Vimeo is slow / fails / motion is reduced.
+      // allowed and the user scrolls the section into view. The poster only
+      // fades out once Vimeo confirms the video is actually playing (via
+      // postMessage 'play' event). If Vimeo never plays (blocked, throttled,
+      // autoplay denied, network failure), the poster stays. v3.6.1.
+      function vimeoPlayReady(media) {
+        if (!media || media.classList.contains('dw-bg-ready')) return;
+        requestAnimationFrame(function(){ media.classList.add('dw-bg-ready'); });
+      }
       function loadBgVideo(media) {
         if (!motionAllowed()) return;
         if (media.dataset.bgLoaded === '1') return;
@@ -556,13 +562,32 @@
         iframe.setAttribute('tabindex', '-1');
         iframe.setAttribute('aria-hidden', 'true');
         iframe.setAttribute('title', 'Ambient film loop');
-        // fade in once the embed registers a load
+        // When the iframe document loads, ask Vimeo to send us 'play' events.
         iframe.addEventListener('load', function(){
-          requestAnimationFrame(function(){ media.classList.add('dw-bg-ready'); });
+          try {
+            iframe.contentWindow.postMessage(
+              '{"method":"addEventListener","value":"play"}', '*');
+            iframe.contentWindow.postMessage(
+              '{"method":"addEventListener","value":"playing"}', '*');
+          } catch(_) {}
         });
         media.appendChild(iframe);
         media.dataset.bgLoaded = '1';
       }
+      // One listener for all Vimeo iframes: only swap poster for video when
+      // Vimeo confirms playback has actually started.
+      window.addEventListener('message', function(e){
+        if (!e || !e.origin || e.origin.indexOf('player.vimeo.com') === -1) return;
+        var data;
+        try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; }
+        catch(_) { return; }
+        if (!data || (data.event !== 'play' && data.event !== 'playing')) return;
+        document.querySelectorAll('.dw-bg-video').forEach(function(f){
+          if (f.contentWindow === e.source) {
+            vimeoPlayReady(f.parentElement);
+          }
+        });
+      });
       var bgMedias = document.querySelectorAll('[data-bg-video]');
       if (bgMedias.length && motionAllowed() && 'IntersectionObserver' in window) {
         var io = new IntersectionObserver(function(entries){
