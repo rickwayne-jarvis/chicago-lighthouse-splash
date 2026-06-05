@@ -384,14 +384,38 @@
       });
 
       // ---------- A11y toolbar ----------
-      // Text size
+      // Text size: A- shrinks, A+ grows. Multiplier applied to <html>
+      // font-size so every rem-based size on the page (headlines, body,
+      // CTAs) scales. Persisted to localStorage across reloads.
+      var FZ_KEY = 'clh-fontsize-mult';
+      var FZ_STEP = 0.125;
+      var FZ_MIN = 0.75;
+      var FZ_MAX = 1.5;
+      var fzMult = 1;
+      try {
+        var saved = parseFloat(localStorage.getItem(FZ_KEY));
+        if (!isNaN(saved) && saved >= FZ_MIN && saved <= FZ_MAX) fzMult = saved;
+      } catch(_) {}
+      function applyFontSize() {
+        document.documentElement.style.fontSize = (fzMult * 16) + 'px';
+        document.querySelectorAll('[data-text-size]').forEach(function(b){
+          var dir = b.getAttribute('data-text-size');
+          var atLimit = (dir === 's' && fzMult <= FZ_MIN + 0.0001) ||
+                        (dir === 'l' && fzMult >= FZ_MAX - 0.0001);
+          b.classList.toggle('is-on', fzMult !== 1);
+          b.disabled = atLimit;
+        });
+        try { localStorage.setItem(FZ_KEY, String(fzMult)); } catch(_) {}
+      }
+      applyFontSize();
       document.querySelectorAll('[data-text-size]').forEach(function(btn){
         btn.addEventListener('click', function(){
-          var sz = btn.getAttribute('data-text-size');
-          body.setAttribute('data-text', sz);
-          document.querySelectorAll('[data-text-size]').forEach(function(b){
-            b.classList.toggle('is-on', b === btn);
-          });
+          var dir = btn.getAttribute('data-text-size');
+          var next = dir === 's' ? fzMult - FZ_STEP : fzMult + FZ_STEP;
+          next = Math.max(FZ_MIN, Math.min(FZ_MAX, Math.round(next * 1000) / 1000));
+          if (next === fzMult) return;
+          fzMult = next;
+          applyFontSize();
         });
       });
 
