@@ -2109,15 +2109,15 @@ body[data-theme="contrast"] .site-header {
 .dw-section-title {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(3rem, 6vw, 6rem);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
   text-transform: uppercase;
   color: var(--cream);
   margin: 0;
   text-shadow:
-    0 2px 24px rgba(0, 0, 0, 0.45),
-    0 0 60px rgba(255, 140, 60, 0.18);
+    0 2px 16px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(255, 140, 60, 0.18);
 }
 
 /* Tighter section-head spacing on small screens */
