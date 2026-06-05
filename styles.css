@@ -2198,3 +2198,73 @@ body[data-theme="contrast"] .dw-section-num   { color: #FFD400 !important; }
      card from getting unreasonably tall on phones. */
   .doorway .dw-content-donor { padding-top: 6.25rem; }
 }
+
+/* =====================================================
+   v3.8 — Hero pathway tiles
+   Three orange CTA tiles (CARE / GIFT / ENTERPRISE) sit
+   inside the hero, directly under the Enter the Site CTA,
+   so Rick lands and sees the three pathways above the fold.
+   They scroll-anchor to the matching doorway card below.
+   ===================================================== */
+.hero-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+  margin-top: clamp(1.25rem, 2.4vh, 1.75rem);
+  width: 100%;
+  max-width: 56rem;
+}
+.hero-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: clamp(1rem, 1.6vw, 1.375rem);
+  line-height: 1.1;
+  color: #fff;
+  text-decoration: none;
+  min-height: 3.5rem;
+  padding: 0.875rem 1rem;
+  background: linear-gradient(135deg, #FF9E48 0%, var(--orange) 45%, var(--orange-deep) 100%);
+  border: 1.5px solid rgba(255, 200, 140, 0.7);
+  border-radius: 0.875rem;
+  box-shadow:
+    0 10px 30px rgba(216, 99, 42, 0.38),
+    0 0 28px rgba(255, 150, 70, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.hero-tile:hover,
+.hero-tile:focus-visible {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #FFB870 0%, #FF8B3D 45%, #E16A2A 100%);
+  box-shadow:
+    0 14px 40px rgba(216, 99, 42, 0.55),
+    0 0 60px rgba(255, 170, 90, 0.80),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  outline: none;
+}
+@media (max-width: 560px) {
+  .hero-tiles {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+  .hero-tile { min-height: 3rem; font-size: 1rem; }
+}
+/* High-contrast theme: keep tiles legible against the yellow/black scheme. */
+body[data-theme="contrast"] .hero-tile {
+  background: #FFD400;
+  color: #000;
+  border-color: #FFD400;
+  box-shadow: 0 0 0 2px #FFD400, 0 0 24px rgba(255, 212, 0, 0.6);
+}
+body[data-theme="contrast"] .hero-tile:hover,
+body[data-theme="contrast"] .hero-tile:focus-visible {
+  background: #fff;
+  color: #000;
+}
