@@ -1712,23 +1712,26 @@ body { font-size: var(--fs-base); line-height: 1.55; }
   .brand img { height: 2.625rem; }
 }
 
-/* Hero loses its absolute-positioned header offset and starts under the
-   banner. Pull margin so the hero hugs the banner. */
+/* Hero fills the full viewport AND extends behind the sticky header so the
+   ambient Vimeo loop reaches the very top edge — no navy gap between the
+   banner and the video. The header keeps its solid navy bg so the wordmark
+   + nav stay legible, the video plays behind it, the hero content gets
+   pushed down by the header height so it never hides under the banner. */
+:root { --header-h: 4.5rem; }
+@media (min-width: 720px)  { :root { --header-h: 5rem; } }
+@media (min-width: 1024px) { :root { --header-h: 5.5rem; } }
+
 .site-header { position: sticky; top: 0; }
 .hero {
+  position: relative;
+  margin-top: calc(-1 * var(--header-h));
+  min-height: 100dvh;
   padding-top: 0;
-  /* Sticky header eats ~4.75rem; mobile a bit less. Use dvh so the iOS
-     URL bar doesn't push content off-screen. */
-  min-height: calc(100dvh - 4.5rem);
   padding-bottom: clamp(2.5rem, 6vh, 5rem);
 }
-@media (min-width: 720px) {
-  .hero { min-height: calc(100dvh - 5rem); }
+.hero-inner {
+  padding-top: calc(var(--header-h) + clamp(1rem, 4vh, 3rem));
 }
-@media (min-width: 1024px) {
-  .hero { min-height: calc(100dvh - 5.5rem); }
-}
-.hero-inner { padding-top: clamp(1rem, 4vh, 3rem); }
 
 /* Section nav: white on dark navy */
 .section-nav-link {
@@ -1794,8 +1797,19 @@ body { font-size: var(--fs-base); line-height: 1.55; }
     0 0 18px rgba(255, 184, 110, 0.50);
 }
 @media (max-width: 480px) {
-  .hero-title { font-size: clamp(1.875rem, 9.5vw, 2.5rem); max-width: 16ch; }
-  .hero-title .hero-accent { font-size: 0.48em; }
+  .hero-title {
+    font-size: clamp(1.65rem, 7.6vw, 2.4rem);
+    max-width: 100%;
+    letter-spacing: -0.02em;
+  }
+  .hero-title .hero-line-dominant {
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+  }
+  .hero-title .hero-accent { font-size: 0.5em; }
+}
+@media (max-width: 360px) {
+  .hero-title { font-size: clamp(1.4rem, 7.4vw, 2rem); }
 }
 
 /* Letter-by-letter illumination — end state is CRISP, not glowy.
