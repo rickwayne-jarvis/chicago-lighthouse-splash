@@ -1,6 +1,6 @@
 # The Chicago Lighthouse — Splash
 
-Single-page splash. Entry point into thechicagolighthouse.org via three doorways: Care, Donor, Enterprise.
+Single-page splash. Entry point into chicagolighthouse.org via three doorways: Care, Donor, Enterprise.
 
 Hand-written HTML + CSS, no framework. Plays three Vimeo films (hero 1198599538, donor 1198599536, enterprise 1198599537). Native accessibility toolbar (text size, high contrast, motion). WCAG 2.2 AA target, AAA where possible.
 
