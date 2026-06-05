@@ -2203,45 +2203,6 @@ body[data-theme="contrast"] .dw-section-num   { color: #FFD400 !important; }
 }
 
 /* =====================================================
-   v3.8 — Hero lede + ENTER THE SITE inline row
-   Lede paragraph and ENTER THE SITE CTA share a horizontal
-   row at desktop (paragraph left, CTA right, vertically
-   centered). On phones they stack so the CTA goes full-width.
-   ===================================================== */
-.hero-cta-row {
-  display: flex;
-  align-items: center;
-  gap: clamp(1rem, 2.4vw, 2rem);
-  margin-top: 1rem;
-  width: 100%;
-}
-.hero-cta-row .lede {
-  margin: 0;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-.hero-cta-row .hero-row {
-  margin: 0;
-  margin-left: auto;
-  flex: 0 0 auto;
-}
-@media (max-width: 720px) {
-  .hero-cta-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  .hero-cta-row .hero-row {
-    margin-left: 0;
-    width: 100%;
-  }
-  .hero-cta-row .hero-row .btn-hero-door {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* =====================================================
    v3.9 — Pathway tile caps on each doorway column
    The CARE / DONATE / ENTERPRISE orange tiles sit at the
    top of each .doorway-group as the cap of its column.
