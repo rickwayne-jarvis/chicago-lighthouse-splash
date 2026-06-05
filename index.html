@@ -16,14 +16,26 @@
   <link rel="preconnect" href="https://i.vimeocdn.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=3.5.6" />
+  <link rel="stylesheet" href="styles.css?v=3.6.0" />
 
   <meta property="og:title" content="The Chicago Lighthouse — Lighting Up Human Potential" />
   <meta property="og:description" content="Lighting up human potential. Three pathways: Explore, Gift, Enterprise." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/hero-braille-reader.jpg" />
 </head>
-<body data-theme="default" data-text="m" data-motion="auto">
+<body data-theme="default" data-text="m" data-motion="auto" class="lights-on">
+
+  <script>
+    /* Failsafe: ensure the page is always visible even if later JS fails.
+       The lights-on class is set on body inline before any other content
+       renders, so the body never sits at curtain-opacity for the user. */
+    (function(){
+      try {
+        document.body.classList.add('lights-on');
+        document.documentElement.classList.add('lights-on');
+      } catch(_) {}
+    })();
+  </script>
 
   <a class="skip" href="#main">Skip to main content</a>
 
@@ -142,7 +154,7 @@
                   <li>Vision Care &amp; Optical Services</li>
                   <li>Programs &amp; Community Support</li>
                 </ul>
-                <a class="btn btn-ghost-light btn-block" href="https://chicagolighthouse.org/programs-services/" target="_blank" rel="noopener">
+                <a class="btn btn-accent btn-block btn-glow dw-cta-primary" href="https://chicagolighthouse.org/programs-services/" target="_blank" rel="noopener">
                   Explore Programs &amp; Services <span class="arr" aria-hidden="true">&rarr;</span>
                 </a>
               </div>
@@ -218,7 +230,7 @@
               <img class="dw-poster" src="assets/enterprise-contact-center.jpg" alt="" />
               <div class="dw-scrim dw-scrim-deep"></div>
             </div>
-            <button class="film-btn film-btn-center" data-film="1198599537" aria-label="Watch the Enterprise film with sound">
+            <button class="film-btn film-btn-corner" data-film="1198599537" aria-label="Watch the Enterprise film with sound">
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
             <div class="dw-content">
@@ -236,7 +248,7 @@
                   <li>Real human conversations</li>
                   <li>Outcomes you can measure</li>
                 </ul>
-                <a class="btn btn-ghost-light btn-block" href="https://lighthouseenterprises.org/" target="_blank" rel="noopener">
+                <a class="btn btn-accent btn-block btn-glow dw-cta-primary" href="https://lighthouseenterprises.org/" target="_blank" rel="noopener">
                   Explore Lighthouse Enterprises <span class="arr" aria-hidden="true">&rarr;</span>
                 </a>
               </div>
@@ -244,10 +256,18 @@
           </article>
 
         </div>
+      </div>
+    </section>
 
-        <!-- Transcript surface: text alternatives for each film. Collapsible per WCAG 1.2.3 -->
+    <hr class="lightline" aria-hidden="true" />
+
+    <!-- ============ TRANSCRIPTS & ALTERNATIVES ============ -->
+    <!-- Sits as its own clearly bottom-of-deck section so the disclosure
+         never appears mid-page within the doorway stack. WCAG 1.2.3. -->
+    <section class="transcripts-section" aria-labelledby="transcripts-title">
+      <div class="wrap">
         <details class="transcripts">
-          <summary>Video transcripts and alternatives</summary>
+          <summary id="transcripts-title">Video transcripts and alternatives</summary>
           <div class="transcripts-grid">
             <div>
               <h4>The Chicago Lighthouse — hero film</h4>
@@ -500,9 +520,23 @@
       }
 
       // ---------- Lights-on load sequence ----------
-      requestAnimationFrame(function(){
-        body.classList.add('lights-on');
-      });
+      // Belt-and-braces: inline script in <body> already set this, but make
+      // sure it stays on in case anything earlier wiped it.
+      body.classList.add('lights-on');
+
+      // Failsafe for the letter-by-letter illumination: if any chars have
+      // not animated to visible within 2.5s (motion paused, tab backgrounded,
+      // OS animations off), force them visible so the hero is never blank.
+      setTimeout(function(){
+        document.querySelectorAll('.illum-char').forEach(function(c){
+          var cs = getComputedStyle(c);
+          if (parseFloat(cs.opacity) < 0.95) {
+            c.style.opacity = '1';
+            c.style.transform = 'none';
+            c.style.filter = 'none';
+          }
+        });
+      }, 2500);
 
       // ---------- Lazy background videos (GIFT + ENTERPRISE) ----------
       // Photo loads instantly as poster; iframe injects only when motion is

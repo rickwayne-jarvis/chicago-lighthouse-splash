@@ -400,10 +400,10 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--radius);
-  min-height: clamp(28rem, 70vh, 38rem);
+  min-height: clamp(22rem, 54vh, 30rem);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: stretch;
   border: 1px solid var(--line-dark);
   box-shadow: var(--shadow-1);
   background: var(--navy);
@@ -444,25 +444,21 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   z-index: 1;
   pointer-events: none;
 }
-.dw-scrim {
-  position: absolute; inset: 0; z-index: 2;
-  background: linear-gradient(180deg,
-    rgba(7,34,58,0.10) 0%,
-    rgba(7,34,58,0.35) 38%,
-    rgba(7,34,58,0.92) 100%);
-}
+.dw-scrim,
+.dw-scrim-deep,
 .dw-scrim-donor {
-  background:
-    linear-gradient(180deg, rgba(216,99,42,0.18) 0%, rgba(7,34,58,0.50) 45%, rgba(7,34,58,0.94) 100%);
+  position: absolute; inset: 0; z-index: 2;
+  /* See v3.6.0 unified scrim block below for the actual gradient. */
 }
 
 .dw-content {
   position: relative; z-index: 3;
-  padding: 1.5rem 1.5rem 1.5rem;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.75rem 1.5rem 1.75rem;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 1rem;
   flex: 1;
 }
-.dw-meta { margin-bottom: auto; padding-top: 0.25rem; }
+.dw-meta { margin: 0 0 0.25rem; padding-top: 0; }
 .dw-num {
   display: inline-block;
   font-size: var(--fs-xs);
@@ -525,7 +521,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
 .dw-content-donor {
   padding: 1.25rem 1.25rem 1.5rem;
 }
-.dw-donor { min-height: clamp(38rem, 84vh, 50rem); }
+.dw-donor { min-height: clamp(34rem, 74vh, 44rem); }
 
 /* ============ DONATION WIDGET (glassmorphic) ============ */
 .give {
@@ -910,8 +906,8 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
     gap: 1.5rem;
     align-items: stretch;
   }
-  .doorway { min-height: clamp(34rem, 75vh, 44rem); }
-  .dw-donor { min-height: clamp(42rem, 90vh, 54rem); }
+  .doorway { min-height: clamp(28rem, 60vh, 36rem); }
+  .dw-donor { min-height: clamp(36rem, 76vh, 46rem); }
   .currently-grid { grid-template-columns: repeat(5, 1fr); column-gap: 1.5rem; }
   .currently-grid li { border-bottom: 0; border-right: 1px solid var(--line-light); }
   .currently-grid li:last-child { border-right: 0; }
@@ -930,10 +926,10 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
   .brand img { height: 2.375rem; }
   .header-cta { padding: 0.5625rem 0.875rem; font-size: 0.8125rem; }
   .hero { min-height: 92vh; }
-  .doorway { min-height: 26rem; }
-  .dw-donor { min-height: 36rem; }
-  .dw-content { padding: 1.25rem 1.25rem; }
-  .dw-content-donor { padding: 1rem 1rem 1.25rem; }
+  .doorway { min-height: 22rem; }
+  .dw-donor { min-height: 32rem; }
+  .dw-content { padding: 1.5rem 1.25rem; }
+  .dw-content-donor { padding: 1.25rem 1rem 1.5rem; }
   .dw-title { font-size: 1.6rem; }
   .film-btn-center { font-size: var(--fs-sm); padding: 0.625rem 1rem; }
   .give-tiers { grid-template-columns: repeat(3, 1fr); gap: 0.375rem; }
@@ -1033,27 +1029,27 @@ body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
 .hero-row { gap: 1rem 1.5rem; row-gap: 1rem; }
 .film-btn-hero { padding: 0.6875rem 1.125rem; }
 
-/* ---------- Lights-on load sequence ---------- */
-body { opacity: 0.04; transition: opacity .5s ease; }
+/* ---------- Lights-on load sequence ----------
+   v3.6.0 — the body is FULLY VISIBLE by default. The "lights-on" class is
+   still set inline at page load (see <script> in index.html) AND from JS
+   after DOMContentLoaded, but it is no longer a gate on visibility. If JS
+   fails entirely the page still renders. The class only controls the
+   optional staggered transition polish below. */
+body { opacity: 1; }
 body.lights-on { opacity: 1; }
 
 .hero-poster, .hero-scrim, .hero-inner, .brand-light {
   transition: opacity .6s ease, transform .6s ease, filter .8s ease;
 }
-body:not(.lights-on) .hero-inner { opacity: 0; transform: translateY(8px); }
-body.lights-on .hero-inner { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
-body:not(.lights-on) .brand-light { opacity: 0; transform: scale(0.6); }
-body.lights-on .brand-light { opacity: 0.85; transform: scale(1); transition-delay: 0.05s; }
+.hero-inner { opacity: 1; transform: translateY(0); }
+.brand-light { opacity: 0.85; transform: scale(1); }
 
 .doorway {
-  opacity: 0;
-  transform: translateY(22px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity .55s ease, transform .55s ease, border-color .25s ease, box-shadow .3s ease, filter .3s ease;
 }
 body.lights-on .doorway { opacity: 1; transform: translateY(0); }
-body.lights-on .doorways .doorway:nth-child(1) { transition-delay: 0.75s; }
-body.lights-on .doorways .doorway:nth-child(2) { transition-delay: 1.05s; }
-body.lights-on .doorways .doorway:nth-child(3) { transition-delay: 1.35s; }
 
 /* ---------- Beacon cursor ---------- */
 .beacon {
@@ -1075,12 +1071,17 @@ body.lights-on .doorways .doorway:nth-child(3) { transition-delay: 1.35s; }
 }
 @media (hover: none) { .beacon { display: none !important; } }
 
-/* ---------- Letter-by-letter hero illumination ---------- */
+/* ---------- Letter-by-letter hero illumination ----------
+   v3.6.0 — default state is VISIBLE. The animation still plays as a
+   blur-and-glow-in entrance, but if the animation never runs (paused tab,
+   reduced motion, or a JS hiccup that stops the timeline at frame 0) the
+   hero text is still readable. The JS in index.html also force-sets
+   opacity:1 after 2.5s as an additional failsafe. */
 .hero-title[data-illuminate] .illum-char {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(8px);
-  filter: blur(6px);
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
   text-shadow: 0 0 0 rgba(255, 184, 110, 0);
   animation: illum-on .9s cubic-bezier(.2,.7,.2,1) forwards;
 }
@@ -1901,26 +1902,16 @@ body { font-size: var(--fs-base); line-height: 1.55; }
   z-index: 3;
 }
 
-/* Deep navy scrim for GIFT + ENTERPRISE: video + photo never overwhelm text */
-.dw-scrim-deep {
+/* v3.6.0 — Unified doorway scrim: 45% navy top → 88% navy bottom.
+   Identical on EXPLORE, GIFT, and ENTERPRISE so the photo / video reads
+   through at the top of every card while the content keeps AA contrast. */
+.dw-scrim,
+.dw-scrim-deep,
+.dw-scrim-donor {
   background: linear-gradient(to bottom,
     rgba(10, 26, 46, 0.45) 0%,
     rgba(10, 26, 46, 0.70) 50%,
     rgba(10, 26, 46, 0.88) 100%);
-}
-.dw-scrim-donor {
-  background:
-    linear-gradient(to bottom,
-      rgba(216, 99, 42, 0.14) 0%,
-      rgba(10, 26, 46, 0.62) 38%,
-      rgba(10, 26, 46, 0.94) 100%);
-}
-/* Default (EXPLORE etc.) scrim — also boosted */
-.dw-scrim {
-  background: linear-gradient(to bottom,
-    rgba(10, 26, 46, 0.22) 0%,
-    rgba(10, 26, 46, 0.55) 40%,
-    rgba(10, 26, 46, 0.94) 100%);
 }
 .dw-content { z-index: 4; }
 
@@ -2021,5 +2012,94 @@ body[data-theme="contrast"] .site-header {
   .header-cta {
     padding: 0.4375rem 0.75rem !important;
     font-size: 0.8125rem !important;
+  }
+}
+
+/* =====================================================
+   v3.6.0 — layout cleanup pass
+   ===================================================== */
+
+/* Primary doorway CTA: identical solid-orange fill, warm halo at rest,
+   brighter halo + lift on hover. Wins specificity against any earlier
+   .btn-ghost-light/.btn-light cascade so EXPLORE, GIFT (INVEST), and
+   ENTERPRISE all read as the same primary action. */
+.doorway .btn.dw-cta-primary,
+.doorway .btn.give-cta {
+  background: var(--btn-orange) !important;
+  color: #fff !important;
+  border: 1.5px solid transparent !important;
+  box-shadow: var(--btn-halo-rest) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+}
+.doorway .btn.dw-cta-primary:hover,
+.doorway .btn.dw-cta-primary:focus-visible,
+.doorway .btn.give-cta:hover,
+.doorway .btn.give-cta:focus-visible {
+  background: var(--btn-orange-bright) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: var(--btn-halo-lit) !important;
+  border-color: rgba(255, 200, 140, 0.7) !important;
+}
+
+/* Transcripts surface as its own bottom-of-page section, never mid-deck. */
+.transcripts-section {
+  padding: clamp(2rem, 4vw, 3rem) 0 clamp(2rem, 4vw, 3rem);
+}
+.transcripts-section .transcripts { margin-top: 0; }
+
+/* Header alignment at narrow widths: keep the donate pill from squeezing
+   off the right edge or overlapping the wordmark. */
+@media (max-width: 480px) {
+  .header-inner {
+    gap: 0.5rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .brand img { height: 2.25rem; max-width: 60vw; }
+  .header-cta {
+    padding: 0.4375rem 0.6875rem !important;
+    font-size: 0.75rem !important;
+    min-height: 1.875rem !important;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 360px) {
+  .header-cta {
+    padding: 0.375rem 0.5625rem !important;
+    font-size: 0.6875rem !important;
+  }
+  .brand img { height: 2rem; }
+}
+
+/* Doorway content cleanup: meta pill sits as a small label, headline,
+   body, and primary CTA all centered as a single vertical group. No
+   more 80% empty navy gap when the card is taller than the content. */
+.dw-content {
+  justify-content: center !important;
+}
+.dw-meta {
+  margin: 0 0 0.5rem !important;
+  align-self: flex-start;
+}
+.dw-body { margin-top: 0; }
+
+/* Donor card: the donation widget is dense, so anchor the content to the
+   top of the card (just under the meta) rather than centering — keeps the
+   tier grid + CTA above the fold on mobile. */
+.dw-content-donor {
+  justify-content: flex-start !important;
+  padding-top: 1.25rem;
+}
+
+/* film-btn-corner on ENTERPRISE: keep it from colliding with the meta
+   pill or running off the right edge on narrow screens. */
+@media (max-width: 480px) {
+  .film-btn-corner {
+    top: 0.75rem; right: 0.75rem;
+    padding: 0.4375rem 0.6875rem;
+    font-size: 0.75rem;
   }
 }
