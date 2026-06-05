@@ -1653,3 +1653,284 @@ body[data-theme="contrast"] .brand {
   border-color: #000 !important;
   box-shadow: 0 0 0 2px #FFD400, 0 0 0 4px #000 !important;
 }
+
+/* =====================================================
+   v3.5 — Legibility pass + dark navy header banner +
+   video backgrounds back on GIFT and ENTERPRISE with
+   deep-blue overlay. Photo as poster, video lazy-loads.
+   Overrides earlier scrim/brand/header rules.
+   ===================================================== */
+
+:root {
+  --fs-base: 1.125rem;       /* bump body to 18px */
+  --fs-sm:   1rem;           /* 16px */
+  --fs-xs:   0.8125rem;      /* 13px */
+  --fs-lede: clamp(1.0625rem, 1.6vw, 1.3125rem);
+}
+body { font-size: var(--fs-base); line-height: 1.55; }
+
+/* ---------- Header: dark navy banner across the top ---------- */
+.site-header {
+  position: relative;
+  background: linear-gradient(180deg, #0A1A2E 0%, #0B2A41 100%);
+  border-bottom: 1px solid rgba(255, 175, 90, 0.18);
+  box-shadow: 0 8px 32px rgba(7, 34, 58, 0.45);
+  padding: 0.625rem 0;
+  z-index: 60;
+}
+/* Brand pill becomes transparent so the white deck logo sits cleanly */
+.brand {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0.25rem 0;
+}
+.brand img {
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.55));
+  height: 3rem;
+}
+@media (min-width: 720px) {
+  .brand img { height: 3.5rem; }
+}
+@media (min-width: 1024px) {
+  .brand img { height: 4rem; }
+}
+@media (max-width: 480px) {
+  .brand img { height: 2.625rem; }
+}
+
+/* Hero loses its absolute-positioned header offset and starts under the
+   banner. Pull margin so the hero hugs the banner. */
+.site-header { position: sticky; top: 0; }
+.hero { padding-top: 0; }
+.hero-inner { padding-top: clamp(1.5rem, 5vh, 4rem); }
+
+/* Section nav: white on dark navy */
+.section-nav-link {
+  color: rgba(255, 255, 255, 0.92);
+}
+.section-nav-link:hover, .section-nav-link:focus-visible {
+  background: rgba(255, 175, 90, 0.20);
+  color: #fff;
+}
+.section-nav-num { color: var(--orange); }
+
+/* Header CTA: enforce small sizing across all viewports.
+   Earlier rules lost the cascade race; re-declare here so they win. */
+.header-cta {
+  padding: 0.5rem 0.9375rem !important;
+  font-size: 0.875rem !important;
+  min-height: 2.25rem !important;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+@media (max-width: 480px) {
+  .header-cta {
+    padding: 0.4375rem 0.75rem !important;
+    font-size: 0.75rem !important;
+    min-height: 2rem !important;
+  }
+}
+
+/* A11y bar: keep visible at mid+ widths, dark-navy aware */
+.a11y-bar { background: rgba(255, 255, 255, 0.06); }
+
+/* ---------- Hero headline: legible across every viewport ---------- */
+.hero-title {
+  font-size: clamp(2.25rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+  max-width: 18ch;
+}
+.hero-line-dominant {
+  display: block;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  line-height: 0.96;
+  color: #ffffff;
+  text-shadow:
+    0 3px 16px rgba(0, 0, 0, 0.85),
+    0 1px 4px rgba(0, 0, 0, 0.65);
+}
+.hero-title .hero-accent {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--orange);
+  font-size: 0.42em;
+  line-height: 1.1;
+  margin-top: 0.625rem;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.80),
+    0 0 18px rgba(255, 184, 110, 0.50);
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(1.875rem, 9.5vw, 2.5rem); max-width: 16ch; }
+  .hero-title .hero-accent { font-size: 0.48em; }
+}
+
+/* Letter-by-letter illumination — end state is CRISP, not glowy.
+   The dominant line stays sharp; the accent breathes via its class. */
+.hero-line-dominant .illum-char {
+  text-shadow:
+    0 3px 16px rgba(0, 0, 0, 0.85),
+    0 1px 4px rgba(0, 0, 0, 0.65);
+}
+@keyframes illum-on {
+  0%   { opacity: 0; transform: translateY(8px); filter: blur(6px); }
+  60%  { opacity: 1; transform: translateY(0);   filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+
+/* Eyebrow legibility */
+.eyebrow-on-dark {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+  letter-spacing: 0.24em;
+  font-weight: 700;
+}
+
+/* Lede: white, weighted, dark shadow for definition over photo/video */
+.lede {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.45vw, 1.25rem);
+  line-height: 1.55;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.85),
+    0 1px 3px rgba(0, 0, 0, 0.65);
+  max-width: 36rem;
+}
+
+/* Choose your path cue */
+.hero-cue {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+/* ---------- Hero scrim: stronger floor so the lede + CTA pop ---------- */
+.hero-scrim {
+  background:
+    linear-gradient(to bottom,
+      rgba(10, 26, 46, 0) 0%,
+      rgba(10, 26, 46, 0) 32%,
+      rgba(10, 26, 46, 0.62) 60%,
+      rgba(10, 26, 46, 0.92) 100%),
+    radial-gradient(80% 60% at 20% 110%, rgba(216, 99, 42, 0.22), transparent 65%);
+}
+
+/* ---------- Doorway media stack: photo poster + lazy video + deep scrim ---------- */
+.dw-media { background: var(--navy-darker); }
+.dw-media .dw-poster {
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.dw-media .dw-bg-video {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: max(100%, 177.78%);
+  height: max(56.25%, 100%);
+  transform: translate(-50%, -50%);
+  border: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.dw-media.dw-bg-ready .dw-bg-video { opacity: 1; }
+.dw-media.dw-bg-ready .dw-poster { opacity: 0; }
+.dw-scrim, .dw-scrim-deep, .dw-scrim-donor {
+  z-index: 3;
+}
+
+/* Deep navy scrim for GIFT + ENTERPRISE: video + photo never overwhelm text */
+.dw-scrim-deep {
+  background: linear-gradient(to bottom,
+    rgba(10, 26, 46, 0.45) 0%,
+    rgba(10, 26, 46, 0.70) 50%,
+    rgba(10, 26, 46, 0.88) 100%);
+}
+.dw-scrim-donor {
+  background:
+    linear-gradient(to bottom,
+      rgba(216, 99, 42, 0.14) 0%,
+      rgba(10, 26, 46, 0.62) 38%,
+      rgba(10, 26, 46, 0.94) 100%);
+}
+/* Default (EXPLORE etc.) scrim — also boosted */
+.dw-scrim {
+  background: linear-gradient(to bottom,
+    rgba(10, 26, 46, 0.22) 0%,
+    rgba(10, 26, 46, 0.55) 40%,
+    rgba(10, 26, 46, 0.94) 100%);
+}
+.dw-content { z-index: 4; }
+
+/* Doorway titles need crisp contrast on whatever bg sits behind */
+.dw-title {
+  color: #ffffff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.65),
+    0 0 18px rgba(255, 184, 110, 0.25);
+}
+.dw-list, .dw-list li {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+.dw-num {
+  background: rgba(7, 34, 58, 0.75);
+  color: #ffffff;
+}
+
+/* Donation tier tiles: white text, weight 800, no smudgy shadows */
+.give-tier {
+  font-weight: 800;
+  font-size: 1.0625rem;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.give-tier.is-on { font-weight: 800; }
+.give-freq-btn {
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.give-cta {
+  font-size: 1.125rem;
+  min-height: 3.25rem;
+  letter-spacing: 0.03em;
+}
+.give-cta-label, .give-cta-amt {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.give-note {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.8125rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* Reduced motion: never auto-load the bg videos */
+body[data-motion="reduced"] .dw-bg-video { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .dw-bg-video { display: none !important; }
+}
+
+/* High-contrast overrides for the deep scrim */
+body[data-theme="contrast"] .dw-scrim,
+body[data-theme="contrast"] .dw-scrim-deep,
+body[data-theme="contrast"] .dw-scrim-donor {
+  background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.97) 100%) !important;
+}
+body[data-theme="contrast"] .site-header {
+  background: #000 !important;
+  border-bottom-color: #FFD400 !important;
+}

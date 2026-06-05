@@ -39,7 +39,7 @@
   <header class="site-header" role="banner">
     <div class="wrap header-inner">
       <a href="#top" class="brand" aria-label="The Chicago Lighthouse — back to top">
-        <img src="assets/logo-color.png" alt="The Chicago Lighthouse, lighting up human potential" />
+        <img src="assets/logo-deck-white.png" alt="The Chicago Lighthouse, lighting up human potential" />
       </a>
 
       <nav class="section-nav" aria-label="Sections">
@@ -94,7 +94,8 @@
       <div class="wrap hero-inner">
         <p class="eyebrow eyebrow-on-dark">The Chicago Lighthouse</p>
         <h1 id="hero-title" class="display hero-title" data-illuminate>
-          <span class="glow-text hero-line-dominant" data-illuminate-line>LIGHTING UP HUMAN POTENTIAL.</span>
+          <span class="hero-line-dominant" data-illuminate-line>LIGHTING&nbsp;UP</span>
+          <span class="hero-line-dominant" data-illuminate-line>HUMAN&nbsp;POTENTIAL.</span>
           <span class="hero-accent glow-accent breathe-warm" data-illuminate-line>Today.</span>
         </h1>
         <p class="lede">Vision care, education, opportunity, and human connection. That is how we are lighting up human potential at The Chicago Lighthouse.</p>
@@ -152,9 +153,9 @@
           <!-- 2. GIFT -->
           <article class="doorway dw-donor" id="gift" aria-labelledby="dw-donor-title">
             <span class="lightsweep" aria-hidden="true"></span>
-            <div class="dw-media" aria-hidden="true">
+            <div class="dw-media" aria-hidden="true" data-bg-video="1198599536" data-bg-poster="assets/gift-smile.jpg">
               <img class="dw-poster" src="assets/gift-smile.jpg" alt="" />
-              <div class="dw-scrim dw-scrim-donor"></div>
+              <div class="dw-scrim dw-scrim-deep"></div>
             </div>
             <button class="film-btn film-btn-corner" data-film="1198599536" aria-label="Watch the Gift film with sound">
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
@@ -214,9 +215,9 @@
           <!-- 3. ENTERPRISE -->
           <article class="doorway dw-enterprise" id="enterprise" aria-labelledby="dw-ent-title">
             <span class="lightsweep" aria-hidden="true"></span>
-            <div class="dw-media" aria-hidden="true">
+            <div class="dw-media" aria-hidden="true" data-bg-video="1198599537" data-bg-poster="assets/enterprise-contact-center.jpg">
               <img class="dw-poster" src="assets/enterprise-contact-center.jpg" alt="" />
-              <div class="dw-scrim"></div>
+              <div class="dw-scrim dw-scrim-deep"></div>
             </div>
             <button class="film-btn film-btn-center" data-film="1198599537" aria-label="Watch the Enterprise film with sound">
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
@@ -503,6 +504,47 @@
       requestAnimationFrame(function(){
         body.classList.add('lights-on');
       });
+
+      // ---------- Lazy background videos (GIFT + ENTERPRISE) ----------
+      // Photo loads instantly as poster; iframe injects only when motion is
+      // allowed and the user scrolls the section into view. Falls back to
+      // photo if Vimeo is slow / fails / motion is reduced.
+      function loadBgVideo(media) {
+        if (!motionAllowed()) return;
+        if (media.dataset.bgLoaded === '1') return;
+        var id = media.getAttribute('data-bg-video');
+        if (!id) return;
+        var iframe = document.createElement('iframe');
+        iframe.className = 'dw-bg-video';
+        iframe.src = 'https://player.vimeo.com/video/' + id +
+          '?background=1&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1';
+        iframe.setAttribute('allow', 'autoplay; fullscreen');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('tabindex', '-1');
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.setAttribute('title', 'Ambient film loop');
+        // fade in once the embed registers a load
+        iframe.addEventListener('load', function(){
+          requestAnimationFrame(function(){ media.classList.add('dw-bg-ready'); });
+        });
+        media.appendChild(iframe);
+        media.dataset.bgLoaded = '1';
+      }
+      var bgMedias = document.querySelectorAll('[data-bg-video]');
+      if (bgMedias.length && motionAllowed() && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting) {
+              loadBgVideo(e.target);
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '300px 0px' });
+        bgMedias.forEach(function(m){ io.observe(m); });
+      } else if (bgMedias.length && motionAllowed()) {
+        // Fallback for very old browsers
+        bgMedias.forEach(loadBgVideo);
+      }
 
       // ---------- Donation widget ----------
       // CLH runs on Classy under give.chicagolighthouse.org.
