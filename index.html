@@ -55,13 +55,8 @@
         <span class="a11y-label" aria-hidden="true">Light</span>
         <div class="a11y-group" role="group" aria-label="Text size">
           <button type="button" class="a11y-btn" data-text-size="s" aria-label="Smaller text" title="Smaller text">A<span aria-hidden="true">-</span></button>
-          <button type="button" class="a11y-btn is-on" data-text-size="m" aria-label="Default text size" title="Default text size">A</button>
           <button type="button" class="a11y-btn" data-text-size="l" aria-label="Larger text" title="Larger text">A<span aria-hidden="true">+</span></button>
         </div>
-        <button type="button" class="a11y-btn a11y-toggle is-on" data-toggle="cc" aria-pressed="true" aria-label="Toggle closed captions" title="Closed Captions On/Off">
-          <span class="dot" aria-hidden="true"></span>
-          <span class="a11y-text">CC</span>
-        </button>
         <button type="button" class="a11y-btn a11y-toggle" data-toggle="theme" aria-pressed="false" aria-label="Toggle high-contrast theme" title="High contrast">
           <span class="dot" aria-hidden="true"></span>
           <span class="a11y-text">Contrast</span>
@@ -71,8 +66,6 @@
           <span class="a11y-text">Motion</span>
         </button>
       </nav>
-
-      <a class="btn btn-accent btn-pulse header-cta" href="#gift" rel="noopener">Light Up Today</a>
     </div>
   </header>
 
@@ -81,7 +74,7 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true">
-        <img class="hero-poster" src="assets/hero-braille-reader.jpg" alt="" />
+        <img class="hero-poster" src="assets/hero-mom-and-child.jpg" alt="" />
         <iframe
           class="hero-video"
           src="https://player.vimeo.com/video/1198599538?background=1&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&texttrack=en"
@@ -120,6 +113,11 @@
         <div class="doorways">
 
           <!-- 1. EXPLORE -->
+          <div class="doorway-group">
+            <header class="dw-section-head">
+              <span class="dw-section-num" aria-hidden="true">01</span>
+              <h3 class="dw-section-title">Explore</h3>
+            </header>
           <article class="doorway dw-care" id="explore" aria-labelledby="dw-care-title">
             <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true" data-bg-video="1198599538" data-bg-poster="assets/explore-playground.jpg">
@@ -130,9 +128,6 @@
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
             <div class="dw-content">
-              <div class="dw-meta">
-                <span class="dw-num"><span class="dw-num-n">01</span> / Explore</span>
-              </div>
               <div class="dw-body">
                 <h3 id="dw-care-title" class="dw-title">
                   <span class="glow-text breathe-warm">We Light Up</span><br/>
@@ -150,8 +145,14 @@
               </div>
             </div>
           </article>
+          </div>
 
           <!-- 2. GIFT -->
+          <div class="doorway-group">
+            <header class="dw-section-head">
+              <span class="dw-section-num" aria-hidden="true">02</span>
+              <h3 class="dw-section-title">Gift</h3>
+            </header>
           <article class="doorway dw-donor" id="gift" aria-labelledby="dw-donor-title">
             <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true" data-bg-video="1198599536" data-bg-poster="assets/gift-smile.jpg">
@@ -162,9 +163,6 @@
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
             <div class="dw-content dw-content-donor">
-              <div class="dw-meta">
-                <span class="dw-num"><span class="dw-num-n">02</span> / Gift</span>
-              </div>
               <div class="dw-body">
                 <h3 id="dw-donor-title" class="dw-title">
                   <span class="glow-text breathe-warm">You Can Light Up</span><br/>
@@ -212,8 +210,14 @@
               </div>
             </div>
           </article>
+          </div>
 
           <!-- 3. ENTERPRISE -->
+          <div class="doorway-group">
+            <header class="dw-section-head">
+              <span class="dw-section-num" aria-hidden="true">03</span>
+              <h3 class="dw-section-title">Enterprise</h3>
+            </header>
           <article class="doorway dw-enterprise" id="enterprise" aria-labelledby="dw-ent-title">
             <span class="lightsweep" aria-hidden="true"></span>
             <div class="dw-media" aria-hidden="true" data-bg-video="1198599537" data-bg-poster="assets/enterprise-contact-center.jpg">
@@ -224,9 +228,6 @@
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
             <div class="dw-content">
-              <div class="dw-meta">
-                <span class="dw-num"><span class="dw-num-n">03</span> / Enterprise</span>
-              </div>
               <div class="dw-body">
                 <h3 id="dw-ent-title" class="dw-title">
                   <span class="glow-text breathe-warm">Lighting Up Your</span><br/>
@@ -244,6 +245,7 @@
               </div>
             </div>
           </article>
+          </div>
 
         </div>
       </div>
@@ -346,27 +348,8 @@
         if (sz && ['s','m','l'].indexOf(sz) >= 0) body.setAttribute('data-text', sz);
       } catch(_) {}
 
-      // ---------- Closed Captions preference (persisted) ----------
-      // Default = on. Films currently only carry auto-generated English on Vimeo
-      // (lang code en-x-autogen). texttrack value matches.
+      // Captions default on for every film modal via Vimeo texttrack param.
       var CC_LANG = 'en-x-autogen';
-      var ccOn = true;
-      try {
-        var stored = window.localStorage.getItem('clh-cc');
-        if (stored === '0') ccOn = false;
-      } catch(_) {}
-      var ccBtn = document.querySelector('[data-toggle="cc"]');
-      function applyCcState() {
-        if (!ccBtn) return;
-        ccBtn.setAttribute('aria-pressed', ccOn ? 'true' : 'false');
-        ccBtn.classList.toggle('is-on', ccOn);
-      }
-      function setCc(next) {
-        ccOn = !!next;
-        try { window.localStorage.setItem('clh-cc', ccOn ? '1' : '0'); } catch(_) {}
-        applyCcState();
-      }
-      applyCcState();
 
       // ---------- Film modal ----------
       var modal = document.getElementById('filmModal');
