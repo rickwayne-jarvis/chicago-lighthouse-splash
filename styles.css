@@ -418,31 +418,16 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
 .dw-media {
   position: absolute; inset: 0; z-index: -2;
   background: var(--navy);
+  /* Container queries let .dw-bg-video size itself against this exact box
+     so the iframe ALWAYS covers (no aspect-ratio rounding error, no top or
+     bottom spillage). */
+  container-type: size;
 }
 .dw-media img, .dw-media .dw-poster {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   z-index: 0;
-}
-.dw-media iframe {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  /* Cover the card while keeping the iframe a perfect 16:9 so Vimeo's
-     background-mode player never letterboxes. width/height: auto lets
-     aspect-ratio actually take effect; the min constraints force the box
-     to be at least as large as the card on both axes — the larger axis
-     wins and the other grows with the aspect ratio. .doorway has
-     overflow: hidden so any horizontal/vertical overhang is clipped. */
-  width: auto;
-  height: auto;
-  min-width: 100%;
-  min-height: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  z-index: 1;
-  pointer-events: none;
 }
 .dw-scrim,
 .dw-scrim-deep,
@@ -1885,16 +1870,28 @@ body { font-size: var(--fs-base); line-height: 1.55; }
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: auto;
-  height: auto;
-  min-width: 100%;
-  min-height: 100%;
-  aspect-ratio: 16 / 9;
+  /* True "cover" math against the .dw-media box. Whichever axis is the
+     binding constraint pegs at 100% of the container; the other axis grows
+     past the container so 16:9 source video fills cleanly. overflow:hidden
+     on .doorway clips the overhang. No top or bottom spillage, ever. */
+  width:  max(100cqw, calc(100cqh * 16 / 9));
+  height: max(100cqh, calc(100cqw * 9 / 16));
   border: 0;
   z-index: 2;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.7s ease;
+}
+/* Browsers without container query unit support fall back to the previous
+   aspect-ratio + min-w/h pattern. */
+@supports not (width: 100cqw) {
+  .dw-media .dw-bg-video {
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    aspect-ratio: 16 / 9;
+  }
 }
 .dw-media.dw-bg-ready .dw-bg-video { opacity: 1; }
 .dw-media.dw-bg-ready .dw-poster { opacity: 0; }
@@ -1902,15 +1899,16 @@ body { font-size: var(--fs-base); line-height: 1.55; }
   z-index: 3;
 }
 
-/* v3.6.0 — Unified doorway scrim: 45% navy top → 88% navy bottom.
-   Identical on EXPLORE, GIFT, and ENTERPRISE so the photo / video reads
-   through at the top of every card while the content keeps AA contrast. */
+/* v3.6.1 — Unified doorway scrim: 25% navy top → 88% navy bottom.
+   Lighter top band lets the GIFT/ENTERPRISE poster and video reads through
+   instead of getting flattened to navy. Bottom still keeps AA contrast
+   under the content block. Identical on EXPLORE, GIFT, and ENTERPRISE. */
 .dw-scrim,
 .dw-scrim-deep,
 .dw-scrim-donor {
   background: linear-gradient(to bottom,
-    rgba(10, 26, 46, 0.45) 0%,
-    rgba(10, 26, 46, 0.70) 50%,
+    rgba(10, 26, 46, 0.25) 0%,
+    rgba(10, 26, 46, 0.55) 45%,
     rgba(10, 26, 46, 0.88) 100%);
 }
 .dw-content { z-index: 4; }
