@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>The Chicago Lighthouse — Make an Impact Today</title>
-  <meta name="description" content="Lighting up human potential through vision care, education, opportunity, and human connection. Care, donor, and enterprise pathways into The Chicago Lighthouse." />
+  <title>The Chicago Lighthouse — Light Up Human Potential</title>
+  <meta name="description" content="Light up human potential through vision care, education, opportunity, and human connection. Care, donor, and enterprise pathways into The Chicago Lighthouse." />
   <meta name="theme-color" content="#0B2A41" />
 
   <link rel="icon" type="image/png" href="assets/logo-deck-white.png" />
@@ -18,8 +18,8 @@
 
   <link rel="stylesheet" href="styles.css" />
 
-  <meta property="og:title" content="The Chicago Lighthouse — Make an Impact Today" />
-  <meta property="og:description" content="Lighting up human potential. Three pathways: Care, Donor, Enterprise." />
+  <meta property="og:title" content="The Chicago Lighthouse — Light Up Human Potential" />
+  <meta property="og:description" content="Light up human potential. Three pathways: Care, Donor, Enterprise." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/poster-hero.jpg" />
 </head>
@@ -53,7 +53,7 @@
         </button>
       </nav>
 
-      <a class="btn btn-accent btn-pulse header-cta" href="https://chicagolighthouse.org/donate/" target="_blank" rel="noopener">Make an Impact</a>
+      <a class="btn btn-accent btn-pulse header-cta" href="#donor" rel="noopener">Light Up Today</a>
     </div>
   </header>
 
@@ -78,10 +78,10 @@
       <div class="wrap hero-inner">
         <p class="eyebrow eyebrow-on-dark">The Chicago Lighthouse</p>
         <h1 id="hero-title" class="display hero-title">
-          <span class="glow-text">Make an Impact</span>
+          <span class="glow-text">Light Up Human Potential.</span>
           <span class="hero-accent glow-accent">Today.</span>
         </h1>
-        <p class="lede">Lighting up human potential through vision care, education, opportunity, and human connection.</p>
+        <p class="lede">Vision care, education, opportunity, and human connection — at The Chicago Lighthouse, that is how we light up human potential.</p>
         <div class="hero-row">
           <button type="button" class="film-btn film-btn-hero" data-film="1198599538" aria-label="Watch the Chicago Lighthouse film with sound">
             <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
@@ -127,7 +127,7 @@
           </article>
 
           <!-- 2. DONOR -->
-          <article class="doorway dw-donor" aria-labelledby="dw-donor-title">
+          <article class="doorway dw-donor" id="donor" aria-labelledby="dw-donor-title">
             <div class="dw-media" aria-hidden="true">
               <img class="dw-poster" src="assets/poster-donor.jpg" alt="" />
               <iframe
@@ -140,10 +140,10 @@
               ></iframe>
               <div class="dw-scrim dw-scrim-donor"></div>
             </div>
-            <button class="film-btn film-btn-center" data-film="1198599536" aria-label="Watch the Donor film with sound">
+            <button class="film-btn film-btn-corner" data-film="1198599536" aria-label="Watch the Donor film with sound">
               <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
             </button>
-            <div class="dw-content">
+            <div class="dw-content dw-content-donor">
               <div class="dw-meta">
                 <span class="dw-num dw-num-accent">02 &middot; Donor</span>
               </div>
@@ -152,18 +152,43 @@
                   <span class="glow-text">You Can Light Up</span><br/>
                   <span class="glow-text">Human Potential.</span>
                 </h3>
-                <ul class="dw-list dw-list-stack" aria-label="Ways to give">
-                  <li>Give Once</li>
-                  <li>Become a Monthly Donor</li>
-                  <li>Sponsor a Program</li>
-                  <li>Volunteer Your Time</li>
-                </ul>
-                <div class="dw-ctas">
-                  <a class="btn btn-accent btn-block btn-glow" href="https://chicagolighthouse.org/donate/" target="_blank" rel="noopener">
-                    Donate Now <span class="arr" aria-hidden="true">&rarr;</span>
+
+                <!-- ============ DONATION WIDGET ============ -->
+                <form class="give" id="giveForm" aria-label="Make a donation" novalidate>
+                  <div class="give-freq" role="group" aria-label="Donation frequency">
+                    <button type="button" class="give-freq-btn is-on" data-freq="one-time" aria-pressed="true">One-Time</button>
+                    <button type="button" class="give-freq-btn" data-freq="monthly" aria-pressed="false">Monthly</button>
+                  </div>
+
+                  <fieldset class="give-tiers" aria-label="Donation amount">
+                    <legend class="sr-only">Choose an amount</legend>
+                    <label class="give-tier"><input type="radio" name="give-amount" value="19" /><span>$19</span></label>
+                    <label class="give-tier is-on"><input type="radio" name="give-amount" value="50" checked /><span>$50</span></label>
+                    <label class="give-tier"><input type="radio" name="give-amount" value="100" /><span>$100</span></label>
+                    <label class="give-tier"><input type="radio" name="give-amount" value="250" /><span>$250</span></label>
+                    <label class="give-tier"><input type="radio" name="give-amount" value="500" /><span>$500</span></label>
+                    <label class="give-tier give-tier-other"><input type="radio" name="give-amount" value="other" /><span>Other</span></label>
+                  </fieldset>
+
+                  <div class="give-other" hidden>
+                    <label for="giveOtherAmt" class="sr-only">Custom amount in US dollars</label>
+                    <span class="give-other-sym" aria-hidden="true">$</span>
+                    <input id="giveOtherAmt" type="number" inputmode="decimal" min="1" step="1" placeholder="Custom amount" autocomplete="off" />
+                  </div>
+
+                  <button type="submit" class="btn btn-accent btn-block btn-glow give-cta" id="giveCta">
+                    Light Up Now <span class="give-cta-amt">— $50 One-Time</span> <span class="arr" aria-hidden="true">&rarr;</span>
+                  </button>
+
+                  <p class="give-note">Secured by The Chicago Lighthouse on Classy. 501(c)(3) tax-deductible.</p>
+                </form>
+
+                <div class="give-alt">
+                  <a class="give-alt-link" href="https://chicagolighthouse.org/donate/corporations-foundations/" target="_blank" rel="noopener">
+                    Sponsor a Program <span class="arr" aria-hidden="true">&rarr;</span>
                   </a>
-                  <a class="btn btn-ghost-light btn-block btn-sm" href="https://give.chicagolighthouse.org/campaign/594504/donate" target="_blank" rel="noopener">
-                    Give Monthly
+                  <a class="give-alt-link" href="https://chicagolighthouse.org/work-with-us/volunteer/" target="_blank" rel="noopener">
+                    Volunteer Your Time <span class="arr" aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
               </div>
@@ -361,6 +386,94 @@
           }
         });
       });
+
+      // ---------- Donation widget ----------
+      // CLH runs on Classy under give.chicagolighthouse.org.
+      // Campaigns: 562978 = main donate, 594504 = monthly giving.
+      // Classy honors c_src/c_src2 for source tracking; amount/recurring are
+      // passed for forward-compat / platform parity (Donorbox, Givebutter, etc.).
+      var CAMPAIGNS = {
+        'one-time': 'https://give.chicagolighthouse.org/campaign/562978/donate',
+        'monthly':  'https://give.chicagolighthouse.org/campaign/594504/donate'
+      };
+
+      var giveForm  = document.getElementById('giveForm');
+      if (giveForm) {
+        var giveCta     = document.getElementById('giveCta');
+        var giveCtaAmt  = giveCta.querySelector('.give-cta-amt');
+        var giveOther   = giveForm.querySelector('.give-other');
+        var giveOtherIn = document.getElementById('giveOtherAmt');
+        var freqBtns    = giveForm.querySelectorAll('.give-freq-btn');
+        var tierLabels  = giveForm.querySelectorAll('.give-tier');
+        var tierInputs  = giveForm.querySelectorAll('input[name="give-amount"]');
+
+        var state = { freq: 'one-time', amount: 50, custom: false };
+
+        function updateCta() {
+          var amt = state.custom
+            ? (parseInt(giveOtherIn.value, 10) || 0)
+            : state.amount;
+          var freqLabel = state.freq === 'monthly' ? '/ month' : 'One-Time';
+          var amtLabel = amt > 0 ? '— $' + amt + ' ' + freqLabel : (state.freq === 'monthly' ? 'Monthly' : 'One-Time');
+          giveCtaAmt.textContent = amtLabel;
+          giveCta.disabled = state.custom && amt < 1;
+        }
+
+        freqBtns.forEach(function(btn){
+          btn.addEventListener('click', function(){
+            state.freq = btn.dataset.freq;
+            freqBtns.forEach(function(b){
+              var on = b === btn;
+              b.classList.toggle('is-on', on);
+              b.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+            updateCta();
+          });
+        });
+
+        tierInputs.forEach(function(inp){
+          inp.addEventListener('change', function(){
+            tierLabels.forEach(function(lab){ lab.classList.toggle('is-on', lab.contains(inp) && inp.checked); });
+            if (inp.value === 'other') {
+              state.custom = true;
+              giveOther.hidden = false;
+              setTimeout(function(){ giveOtherIn.focus(); }, 50);
+            } else {
+              state.custom = false;
+              state.amount = parseInt(inp.value, 10) || 0;
+              giveOther.hidden = true;
+            }
+            updateCta();
+          });
+        });
+
+        giveOtherIn.addEventListener('input', updateCta);
+
+        giveForm.addEventListener('submit', function(e){
+          e.preventDefault();
+          var amt = state.custom
+            ? (parseInt(giveOtherIn.value, 10) || 0)
+            : state.amount;
+          if (amt < 1) {
+            giveOtherIn.focus();
+            return;
+          }
+          var url = new URL(CAMPAIGNS[state.freq] || CAMPAIGNS['one-time']);
+          // Classy native + platform-portable params
+          url.searchParams.set('amount', String(amt));
+          if (state.freq === 'monthly') {
+            url.searchParams.set('recurring', 'monthly');
+            url.searchParams.set('frequency', 'monthly');
+          } else {
+            url.searchParams.set('recurring', 'false');
+          }
+          url.searchParams.set('c_src', 'splash');
+          url.searchParams.set('c_src2', 'light-up-now');
+          window.open(url.toString(), '_blank', 'noopener');
+        });
+
+        updateCta();
+      }
     })();
   </script>
 </body>

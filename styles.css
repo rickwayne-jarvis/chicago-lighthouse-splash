@@ -262,7 +262,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
 .arr { display: inline-block; transition: transform .2s ease; }
 .btn:hover .arr { transform: translateX(3px); }
 
-/* Pulse on Make an Impact pill — gentle breath */
+/* Pulse on header Light Up Today pill — gentle breath */
 .btn-pulse { animation: btn-pulse 3.6s ease-in-out infinite; }
 @keyframes btn-pulse {
   0%, 100% { box-shadow: 0 0 0 rgba(255,140,60,0.0), 0 4px 14px rgba(216,99,42,0.20); }
@@ -498,6 +498,200 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   box-shadow: var(--shadow-pop), 0 0 80px rgba(255, 140, 60, 0.35);
 }
 
+/* DONOR card needs more room for the donation widget */
+.dw-content-donor {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+.dw-donor { min-height: clamp(38rem, 84vh, 50rem); }
+
+/* ============ DONATION WIDGET (glassmorphic) ============ */
+.give {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  padding: 1rem;
+  margin: 0 0 0.875rem;
+  background: rgba(7, 34, 58, 0.55);
+  border: 1px solid rgba(255, 175, 90, 0.32);
+  border-radius: 14px;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 18px 40px rgba(7, 34, 58, 0.42), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Frequency toggle */
+.give-freq {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  background: rgba(7, 34, 58, 0.55);
+}
+.give-freq-btn {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--on-dark-2);
+  letter-spacing: 0.02em;
+  transition: background-color .18s ease, color .18s ease, box-shadow .25s ease;
+}
+.give-freq-btn:hover { color: #fff; background: rgba(255,255,255,0.10); }
+.give-freq-btn.is-on, .give-freq-btn[aria-pressed="true"] {
+  background: var(--orange);
+  color: #fff;
+  box-shadow: var(--glow-warm);
+}
+
+/* Tier grid */
+.give-tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4375rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.give-tier {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.25rem;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  border-radius: 12px;
+  background: rgba(7, 34, 58, 0.55);
+  font-weight: 600;
+  font-size: var(--fs-base);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .25s ease, transform .15s ease;
+}
+.give-tier:hover {
+  border-color: rgba(255, 175, 90, 0.7);
+  background: rgba(216, 99, 42, 0.18);
+  transform: translateY(-1px);
+}
+.give-tier input { position: absolute; opacity: 0; pointer-events: none; }
+.give-tier:focus-within {
+  box-shadow: var(--glow-strong);
+  border-color: var(--orange);
+}
+.give-tier.is-on {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(255, 140, 60, 0.55);
+}
+.give-tier-other { font-size: var(--fs-sm); letter-spacing: 0.02em; }
+
+/* Custom amount */
+.give-other {
+  position: relative;
+  display: flex; align-items: center;
+}
+.give-other[hidden] { display: none; }
+.give-other-sym {
+  position: absolute;
+  left: 0.875rem;
+  font-weight: 700;
+  color: var(--on-dark-2);
+}
+.give-other input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem 0.5rem 1.75rem;
+  background: rgba(7, 34, 58, 0.65);
+  border: 1.5px solid rgba(255, 175, 90, 0.45);
+  border-radius: 12px;
+  color: #fff;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.give-other input::placeholder { color: rgba(255,255,255,0.55); font-weight: 500; }
+.give-other input:focus-visible { box-shadow: var(--glow-strong); border-color: var(--orange); outline: none; }
+
+/* Primary CTA — live label */
+.give-cta {
+  width: 100%;
+  margin-top: 0.125rem;
+  font-size: var(--fs-base);
+  flex-wrap: wrap;
+}
+.give-cta-amt {
+  font-weight: 500;
+  opacity: 0.95;
+  letter-spacing: 0.02em;
+}
+.give-cta:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.give-cta:disabled:hover { transform: none; box-shadow: none; }
+
+.give-note {
+  margin: 0.125rem 0 0;
+  font-size: var(--fs-xs);
+  color: var(--on-dark-3);
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+/* Secondary alt paths */
+.give-alt {
+  display: flex; flex-direction: column; gap: 0.125rem;
+  padding-top: 0.25rem;
+}
+.give-alt-link {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.125rem;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--on-dark-2);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  transition: color .15s ease, padding .2s ease, border-color .15s ease;
+}
+.give-alt-link:last-child { border-bottom: 0; }
+.give-alt-link .arr { transition: transform .2s ease, color .2s ease; color: rgba(255,255,255,0.5); }
+.give-alt-link:hover, .give-alt-link:focus-visible {
+  color: #fff; padding-left: 0.375rem; border-color: rgba(255, 175, 90, 0.5);
+}
+.give-alt-link:hover .arr, .give-alt-link:focus-visible .arr {
+  transform: translateX(3px); color: var(--orange);
+}
+
+/* High-contrast overrides for donation widget */
+body[data-theme="contrast"] .give {
+  background: #000; border-color: #FFD400; backdrop-filter: none;
+}
+body[data-theme="contrast"] .give-tier,
+body[data-theme="contrast"] .give-freq,
+body[data-theme="contrast"] .give-freq-btn,
+body[data-theme="contrast"] .give-other input {
+  background: #000; color: #fff; border-color: #FFD400;
+}
+body[data-theme="contrast"] .give-tier.is-on,
+body[data-theme="contrast"] .give-freq-btn.is-on,
+body[data-theme="contrast"] .give-freq-btn[aria-pressed="true"] {
+  background: #FFD400; color: #000;
+}
+
+/* Reposition Watch the Film button so it doesn't collide with the donation widget */
+.film-btn-corner {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  z-index: 4;
+  padding: 0.5rem 0.875rem;
+  font-size: var(--fs-sm);
+  background: rgba(7, 34, 58, 0.75);
+}
+.film-btn-corner:hover, .film-btn-corner:focus-visible {
+  background: var(--orange);
+  border-color: var(--orange);
+  transform: translateY(-1px);
+}
+
 /* Watch the Film overlay — centered for donor + enterprise, inline for hero */
 .film-btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -691,8 +885,10 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   .doorways {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    align-items: stretch;
   }
   .doorway { min-height: clamp(34rem, 75vh, 44rem); }
+  .dw-donor { min-height: clamp(42rem, 90vh, 54rem); }
   .currently-grid { grid-template-columns: repeat(5, 1fr); column-gap: 1.5rem; }
   .currently-grid li { border-bottom: 0; border-right: 1px solid var(--line-light); }
   .currently-grid li:last-child { border-right: 0; }
@@ -712,9 +908,13 @@ a:focus-visible, button:focus-visible, .btn:focus-visible {
   .header-cta { padding: 0.5625rem 0.875rem; font-size: 0.8125rem; }
   .hero { min-height: 92vh; }
   .doorway { min-height: 26rem; }
+  .dw-donor { min-height: 36rem; }
   .dw-content { padding: 1.25rem 1.25rem; }
+  .dw-content-donor { padding: 1rem 1rem 1.25rem; }
   .dw-title { font-size: 1.6rem; }
   .film-btn-center { font-size: var(--fs-sm); padding: 0.625rem 1rem; }
+  .give-tiers { grid-template-columns: repeat(3, 1fr); gap: 0.375rem; }
+  .give-tier { min-height: 2.5rem; font-size: 0.9375rem; }
 }
 
 /* 200% zoom safety: keep layout from collapsing horizontally */
