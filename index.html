@@ -342,7 +342,11 @@
       } catch(_) {}
 
       // Captions default on for every film modal via Vimeo texttrack param.
+      // The CC toolbar toggle was removed earlier, so ccOn is now a hard
+      // default; if a future toggle is added it can re-assign this flag.
       var CC_LANG = 'en-x-autogen';
+      var ccOn = true;
+      function setCc(v){ ccOn = !!v; }
 
       // ---------- Film modal ----------
       var modal = document.getElementById('filmModal');
