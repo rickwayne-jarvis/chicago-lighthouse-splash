@@ -1678,6 +1678,19 @@ body { font-size: var(--fs-base); line-height: 1.55; }
   padding: 0.625rem 0;
   z-index: 60;
 }
+/* Switch header layout to flex so hidden children (section-nav, a11y-bar)
+   don't claim grid tracks and stretch the donate pill. */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+}
+.section-nav { flex: 0 1 auto; margin-left: auto; }
+.a11y-bar    { flex: 0 1 auto; }
+.brand       { flex: 0 0 auto; }
+.header-cta  { flex: 0 0 auto; }
 /* Brand pill becomes transparent so the white deck logo sits cleanly */
 .brand {
   background: transparent;
