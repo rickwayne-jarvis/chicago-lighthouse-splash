@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://i.vimeocdn.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=3.6.1" />
+  <link rel="stylesheet" href="styles.css?v=3.7.0" />
 
   <meta property="og:title" content="The Chicago Lighthouse — Lighting Up Human Potential" />
   <meta property="og:description" content="Lighting up human potential. Three pathways: Explore, Gift, Enterprise." />
@@ -42,9 +42,6 @@
   <!-- Brand light: warm radial glow anchored to logo position -->
   <div class="brand-light" aria-hidden="true"></div>
 
-  <!-- Beacon cursor: warm radial glow that follows the pointer -->
-  <div class="beacon" id="beacon" aria-hidden="true"></div>
-
   <!-- Switch flash overlay: warm light sweep for the contrast toggle -->
   <div class="switch-flash" id="switchFlash" aria-hidden="true"></div>
 
@@ -53,12 +50,6 @@
       <a href="#top" class="brand" aria-label="The Chicago Lighthouse — back to top">
         <img src="assets/logo-mark-white.png" alt="The Chicago Lighthouse" />
       </a>
-
-      <nav class="section-nav" aria-label="Sections">
-        <a href="#explore" class="section-nav-link"><span class="section-nav-num">01</span>Explore</a>
-        <a href="#gift" class="section-nav-link"><span class="section-nav-num">02</span>Gift</a>
-        <a href="#enterprise" class="section-nav-link"><span class="section-nav-num">03</span>Enterprise</a>
-      </nav>
 
       <nav class="a11y-bar" aria-label="Display preferences">
         <span class="a11y-label" aria-hidden="true">Light</span>
@@ -114,10 +105,6 @@
           <a class="btn btn-accent btn-hero-door" href="https://chicagolighthouse.org/" target="_blank" rel="noopener">
             Enter the Site <span class="arr" aria-hidden="true">&rarr;</span>
           </a>
-          <button type="button" class="film-btn film-btn-hero" data-film="1198599538" aria-label="Watch the Chicago Lighthouse film with sound">
-            <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
-          </button>
-          <p class="hero-cue" aria-hidden="true"><span class="scroll-dot"></span> Choose your path</p>
         </div>
       </div>
     </section>
@@ -135,10 +122,13 @@
           <!-- 1. EXPLORE -->
           <article class="doorway dw-care" id="explore" aria-labelledby="dw-care-title">
             <span class="lightsweep" aria-hidden="true"></span>
-            <div class="dw-media" aria-hidden="true">
-              <img src="assets/explore-playground.jpg" alt="" />
+            <div class="dw-media" aria-hidden="true" data-bg-video="1198599538" data-bg-poster="assets/explore-playground.jpg">
+              <img class="dw-poster" src="assets/explore-playground.jpg" alt="" />
               <div class="dw-scrim"></div>
             </div>
+            <button class="film-btn film-btn-corner" data-film="1198599538" aria-label="Watch the Chicago Lighthouse film with sound">
+              <span class="play-i" aria-hidden="true">&#9658;</span> Watch the Film
+            </button>
             <div class="dw-content">
               <div class="dw-meta">
                 <span class="dw-num"><span class="dw-num-n">01</span> / Explore</span>
@@ -173,7 +163,7 @@
             </button>
             <div class="dw-content dw-content-donor">
               <div class="dw-meta">
-                <span class="dw-num dw-num-accent"><span class="dw-num-n">02</span> / Gift</span>
+                <span class="dw-num"><span class="dw-num-n">02</span> / Gift</span>
               </div>
               <div class="dw-body">
                 <h3 id="dw-donor-title" class="dw-title">
@@ -465,37 +455,13 @@
           btn.classList.toggle('is-on', pressed);
 
           if (key === 'motion' && pressed) {
-            // pause autoplay iframes + retire the beacon
+            // pause autoplay iframes
             document.querySelectorAll('.hero-video, .dw-media iframe').forEach(function(f){
               try { f.contentWindow.postMessage('{"method":"pause"}', '*'); } catch(_) {}
             });
-            var b = document.getElementById('beacon');
-            if (b) b.style.opacity = '0';
           }
         });
       });
-
-      // ---------- Beacon cursor ----------
-      var beacon = document.getElementById('beacon');
-      var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-      if (beacon && !hasTouch) {
-        var bx = -200, by = -200, tx = -200, ty = -200, raf = null;
-        function paint() {
-          bx += (tx - bx) * 0.22;
-          by += (ty - by) * 0.22;
-          beacon.style.transform = 'translate3d(' + (bx - 40) + 'px,' + (by - 40) + 'px, 0)';
-          if (Math.abs(tx - bx) > 0.5 || Math.abs(ty - by) > 0.5) {
-            raf = requestAnimationFrame(paint);
-          } else { raf = null; }
-        }
-        window.addEventListener('pointermove', function(e){
-          if (!motionAllowed()) { beacon.style.opacity = '0'; return; }
-          beacon.style.opacity = '1';
-          tx = e.clientX; ty = e.clientY;
-          if (!raf) raf = requestAnimationFrame(paint);
-        }, { passive: true });
-        window.addEventListener('pointerleave', function(){ beacon.style.opacity = '0'; });
-      }
 
       // ---------- Hero letter-by-letter illumination ----------
       var titleEl = document.querySelector('[data-illuminate]');
