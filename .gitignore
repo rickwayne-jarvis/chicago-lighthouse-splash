@@ -1,0 +1,13 @@
+# Internal QA artifacts
+_brief/
+screenshots/
+
+# macOS
+.DS_Store
+
+# Editor / temp
+*.swp
+*.swo
+.idea/
+.vscode/
+node_modules/
