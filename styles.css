@@ -1702,8 +1702,20 @@ body { font-size: var(--fs-base); line-height: 1.55; }
 /* Hero loses its absolute-positioned header offset and starts under the
    banner. Pull margin so the hero hugs the banner. */
 .site-header { position: sticky; top: 0; }
-.hero { padding-top: 0; }
-.hero-inner { padding-top: clamp(1.5rem, 5vh, 4rem); }
+.hero {
+  padding-top: 0;
+  /* Sticky header eats ~4.75rem; mobile a bit less. Use dvh so the iOS
+     URL bar doesn't push content off-screen. */
+  min-height: calc(100dvh - 4.5rem);
+  padding-bottom: clamp(2.5rem, 6vh, 5rem);
+}
+@media (min-width: 720px) {
+  .hero { min-height: calc(100dvh - 5rem); }
+}
+@media (min-width: 1024px) {
+  .hero { min-height: calc(100dvh - 5.5rem); }
+}
+.hero-inner { padding-top: clamp(1rem, 4vh, 3rem); }
 
 /* Section nav: white on dark navy */
 .section-nav-link {
